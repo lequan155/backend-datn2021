@@ -10,5 +10,4 @@ import com.datn2021.model.PendingOrder;
 public interface PendingOrderRepository extends JpaRepository<PendingOrder, Long> {
 	@Query(value = "select * from pending_order where table_id = ?1",nativeQuery = true) 
 	List<PendingOrder> findAll(Long id);
-	 
 }

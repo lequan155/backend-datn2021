@@ -16,6 +16,7 @@ public class Menu {
 	private String name;
 	private Long price;
 	private String picture;
+	private boolean status;
 	public Long getId() {
 		return id;
 	}
@@ -39,6 +40,12 @@ public class Menu {
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 	
 }
