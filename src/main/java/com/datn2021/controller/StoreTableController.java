@@ -17,7 +17,7 @@ import com.datn2021.model.StoreTable;
 import com.datn2021.repo.StoreTableRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/table")
 public class StoreTableController {
 	

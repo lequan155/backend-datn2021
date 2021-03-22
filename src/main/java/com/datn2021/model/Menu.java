@@ -1,5 +1,7 @@
 package com.datn2021.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +16,7 @@ public class Menu {
 	@Id @GeneratedValue
 	private Long id;
 	private String name;
-	private Long price;
+	private BigDecimal price;
 	private String picture;
 	private boolean status;
 	public Long getId() {
@@ -29,10 +31,10 @@ public class Menu {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(Long price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	public String getPicture() {

@@ -17,8 +17,8 @@ import com.datn2021.model.OrderFinal;
 import com.datn2021.repo.OrderFinalRepository;
 
 @RestController
-@RequestMapping("/orderfinal")
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin("http://localhost:3000")
+@RequestMapping("/table/{id}/orderfinal")
 public class OrderFinalController {
 @Autowired private OrderFinalRepository repo;
 	
@@ -37,9 +37,10 @@ public class OrderFinalController {
 				OrderFinal -> {
 					OrderFinal.setId(newOrderFinal.getId());
 					OrderFinal.setItemId(newOrderFinal.getItemId());
-					OrderFinal.setOrderID(newOrderFinal.getOrderID());
 					OrderFinal.setTableId(newOrderFinal.getTableId());
-					OrderFinal.setTotal(newOrderFinal.getTotal());
+					OrderFinal.setCustomerID(newOrderFinal.getCustomerID());
+					OrderFinal.setItemName(newOrderFinal.getItemName());
+					OrderFinal.setPrice(newOrderFinal.getPrice());
 					return repo.save(OrderFinal);
 				}).orElseGet(()->{
 					newOrderFinal.setId(id);

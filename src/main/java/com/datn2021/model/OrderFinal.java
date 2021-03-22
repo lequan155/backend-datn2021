@@ -1,5 +1,7 @@
 package com.datn2021.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,21 +15,22 @@ import lombok.NoArgsConstructor;
 public class OrderFinal {
 	@Id @GeneratedValue
 	private Long id;
-	private Long orderID;
+	private Long customerID;
 	private Long tableId;
 	private Long itemId;
-	private Long total;
+	private BigDecimal price;
+	private String itemName;
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getOrderID() {
-		return orderID;
+	public Long getCustomerID() {
+		return customerID;
 	}
-	public void setOrderID(Long orderID) {
-		this.orderID = orderID;
+	public void setCustomerID(Long customerID) {
+		this.customerID = customerID;
 	}
 	public Long getTableId() {
 		return tableId;
@@ -41,11 +44,18 @@ public class OrderFinal {
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
-	public Long getTotal() {
-		return total;
+	public BigDecimal getPrice() {
+		return price;
 	}
-	public void setTotal(Long total) {
-		this.total = total;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	
 
 }

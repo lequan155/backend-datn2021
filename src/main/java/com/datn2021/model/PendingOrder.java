@@ -1,5 +1,7 @@
 package com.datn2021.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +16,7 @@ public class PendingOrder {
 	
 	private Long tableId;
 	private Long itemId;
-	private Long price;
+	private BigDecimal price;
 	private String itemName;
 	private String picture;
 	private boolean status = false;
@@ -36,10 +38,10 @@ public class PendingOrder {
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
-	public Long getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(Long price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	public String getPicture() {

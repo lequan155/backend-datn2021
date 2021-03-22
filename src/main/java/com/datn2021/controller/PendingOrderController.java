@@ -26,8 +26,8 @@ import com.datn2021.repo.PendingOrderRepository;
 import com.datn2021.repo.StoreTableRepository;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/table/{id}/pendingorder")
-@CrossOrigin("http://localhost:3000/")
 public class PendingOrderController {
 @Autowired private PendingOrderRepository repo;
 @Autowired private MenuRepository itemRepo;
@@ -67,7 +67,7 @@ public class PendingOrderController {
 		repo.deleteById(id);
 	}
 
-	@GetMapping("/{param}")
+	@PostMapping("/{param}")
 	public List<PendingOrder> addMenuItem (@RequestBody List<Long> list,@PathVariable Long id, @PathVariable String param){
 		try {
 			if("addItem".equals(param)) {

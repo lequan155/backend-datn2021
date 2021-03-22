@@ -13,7 +13,7 @@ import lombok.Setter;
 	@Id @GeneratedValue
 	private Long id;
 	private String tableName;
-	private String status;
+	private String status = "OK";
 	
 	public Long getId() {
 		return id;

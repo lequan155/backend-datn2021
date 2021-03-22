@@ -13,41 +13,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.datn2021.model.Menu;
-import com.datn2021.repo.MenuRepository;
+import com.datn2021.model.Sales;
+import com.datn2021.repo.SalesRepository;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-@RequestMapping("/menu")
-public class MenuController {
-@Autowired private MenuRepository repo;
+@RequestMapping("/sales")
+public class SalesController {
+@Autowired private SalesRepository repo;
 	
 	@GetMapping("")
-	public List<Menu> getListMenu(){
+	public List<Sales> getListSales(){
 		return repo.findAll();
 	}
 	
 	@PostMapping("")
-	public Menu createMenu(@RequestBody Menu newMenu){
-		return repo.save(newMenu);
+	public Sales createSales(@RequestBody Sales newSales){
+		return repo.save(newSales);
 	
 	}@PutMapping("/{id}")
-	public Menu updateMenu(@RequestBody Menu newMenu, @PathVariable Long id){
+	public Sales updateSales(@RequestBody Sales newSales, @PathVariable Long id){
 		return repo.findById(id).map(
-				menu -> {
-					menu.setId(newMenu.getId());
-					menu.setName(newMenu.getName());
-					menu.setPrice(newMenu.getPrice());
-					menu.setPicture(newMenu.getPicture());
-					menu.setStatus(newMenu.isStatus());
-					return repo.save(menu);
+				Sales -> {
+					Sales.setId(newSales.getId());
+					Sales.setSalesName(newSales.getSalesName());
+					Sales.setDiscountAmount(newSales.getDiscountAmount());
+					return repo.save(Sales);
 				}).orElseGet(()->{
-					newMenu.setId(id);
-					return repo.save(newMenu);
+					newSales.setId(id);
+					return repo.save(newSales);
 				});
 	}
 	@DeleteMapping("/{id}")
-	public void deleteMenu(@PathVariable Long id){
+	public void deleteSales(@PathVariable Long id){
 		repo.deleteById(id);;
 	}
 
