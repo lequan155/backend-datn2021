@@ -14,16 +14,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.model.OrderFinal;
+import com.datn2021.model.PendingOrder;
 import com.datn2021.repo.OrderFinalRepository;
+import com.datn2021.repo.PendingOrderRepository;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 @RequestMapping("/table/{id}/orderfinal")
 public class OrderFinalController {
 @Autowired private OrderFinalRepository repo;
-	
+@Autowired private PendingOrderRepository pendingrepo;	
 	@GetMapping("")
-	public List<OrderFinal> getListOrderFinal(){
+	public List<OrderFinal> getListOrderFinal(@PathVariable Long id){
+		List<PendingOrder> listPendingOrder = pendingrepo.findAll();
+		OrderFinal finalItem = new OrderFinal();
+		if(!listPendingOrder.isEmpty()) {
+			for(PendingOrder item : listPendingOrder) {
+				finalItem.setTableId(id);
+				finalItem.setItemId(item.getItemId());
+				finalItem.setItemName(item.getItemName());
+				finalItem.setPrice(item.getPrice());
+				finalItem.setCustomerID(null);
+				repo.save(finalItem);
+			}
+		}
 		return repo.findAll();
 	}
 	
