@@ -15,6 +15,7 @@ public class Sales {
 	private Long id;
 	private String salesName;
 	private BigDecimal discountAmount;
+	private String description;
 	
 	public Long getId() {
 		return id;
@@ -33,6 +34,13 @@ public class Sales {
 	}
 	public void setDiscountAmount(BigDecimal discountAmount) {
 		this.discountAmount = discountAmount;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

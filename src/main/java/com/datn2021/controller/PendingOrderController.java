@@ -26,7 +26,7 @@ import com.datn2021.repo.PendingOrderRepository;
 import com.datn2021.repo.StoreTableRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/table/{id}/pendingorder")
 public class PendingOrderController {
 @Autowired private PendingOrderRepository repo;

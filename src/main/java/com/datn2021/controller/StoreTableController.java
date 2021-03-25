@@ -17,7 +17,7 @@ import com.datn2021.model.StoreTable;
 import com.datn2021.repo.StoreTableRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/table")
 public class StoreTableController {
 	
@@ -41,8 +41,9 @@ public class StoreTableController {
 	public StoreTable updateTable(@RequestBody StoreTable newTable, @PathVariable Long id){
 		return repo.findById(id).map(
 				storeTable -> {
-					storeTable.setId(newTable.getId());
+//					storeTable.setId(newTable.getId());
 					storeTable.setTableName(newTable.getTableName());
+					storeTable.setStatus(newTable.getStatus());
 					return repo.save(storeTable);
 				}).orElseGet(()->{
 					newTable.setId(id);

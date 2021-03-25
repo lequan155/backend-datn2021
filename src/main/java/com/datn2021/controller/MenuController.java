@@ -17,7 +17,7 @@ import com.datn2021.model.Menu;
 import com.datn2021.repo.MenuRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/menu")
 public class MenuController {
 @Autowired private MenuRepository repo;
@@ -31,11 +31,16 @@ public class MenuController {
 	public Menu createMenu(@RequestBody Menu newMenu){
 		return repo.save(newMenu);
 	
-	}@PutMapping("/{id}")
+	}
+	@GetMapping("/{id}")
+	public Menu getMenuById(@PathVariable Long id) {
+		return repo.findMenuItemById(id);
+	}
+	
+	@PutMapping("/{id}")
 	public Menu updateMenu(@RequestBody Menu newMenu, @PathVariable Long id){
 		return repo.findById(id).map(
 				menu -> {
-					menu.setId(newMenu.getId());
 					menu.setName(newMenu.getName());
 					menu.setPrice(newMenu.getPrice());
 					menu.setPicture(newMenu.getPicture());
