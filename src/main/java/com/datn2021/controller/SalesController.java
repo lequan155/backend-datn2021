@@ -1,6 +1,7 @@
 package com.datn2021.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +26,10 @@ public class SalesController {
 	@GetMapping("")
 	public List<Sales> getListSales(){
 		return repo.findAll();
+	}
+	@GetMapping("/{id}")
+	public Optional<Sales> getSalesById(@PathVariable Long id) {
+		return repo.findById(id);
 	}
 	
 	@PostMapping("")

@@ -51,6 +51,40 @@ public class StoreTableController {
 				});
 	}
 	
+	@PutMapping("/updateStatusBusy/{id}")
+	public StoreTable updateStatusTable(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		return repo.findById(id).map(
+				storeTable -> {
+					storeTable.setStatus("Busy");
+					return repo.save(storeTable);
+				}).orElseGet(()->{
+					newTable.setId(id);
+					return repo.save(newTable);
+				});
+	}
+	@PutMapping("/updateStatusPending/{id}")
+	public StoreTable updateStatusBusy(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		return repo.findById(id).map(
+				storeTable -> {
+					storeTable.setStatus("Pending");
+					return repo.save(storeTable);
+				}).orElseGet(()->{
+					newTable.setId(id);
+					return repo.save(newTable);
+				});
+	}
+	@PutMapping("/updateStatusReady/{id}")
+	public StoreTable updateStatusReady(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		return repo.findById(id).map(
+				storeTable -> {
+					storeTable.setStatus("Ready");
+					return repo.save(storeTable);
+				}).orElseGet(()->{
+					newTable.setId(id);
+					return repo.save(newTable);
+				});
+	}
+	
 	@DeleteMapping("/{id}")
 	public void deleteTable(@PathVariable Long id){
 		repo.deleteById(id);;

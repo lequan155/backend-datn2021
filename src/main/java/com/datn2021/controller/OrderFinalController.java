@@ -26,7 +26,8 @@ public class OrderFinalController {
 @Autowired private PendingOrderRepository pendingrepo;	
 	@GetMapping("")
 	public List<OrderFinal> getListOrderFinal(@PathVariable Long id){
-		List<PendingOrder> listPendingOrder = pendingrepo.findAll();
+//		List<PendingOrder> listPendingOrder = pendingrepo.findAll();
+		List<PendingOrder> listPendingOrder = pendingrepo.findOrderTableById(id);
 		OrderFinal finalItem = new OrderFinal();
 		if(!listPendingOrder.isEmpty()) {
 			for(PendingOrder item : listPendingOrder) {
