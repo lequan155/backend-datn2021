@@ -1,8 +1,13 @@
 package com.datn2021.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -16,6 +21,7 @@ public class Customer {
 	private String phoneNo;
 	private String address;
 	private Long pts;
+	private boolean isDelete;
 	
 	public Long getId() {
 		return id;
@@ -52,6 +58,12 @@ public class Customer {
 	}
 	public void setPts(Long pts) {
 		this.pts = pts;
+	}
+	public boolean isDelete() {
+		return isDelete;
+	}
+	public void setDelete(boolean isDelete) {
+		this.isDelete = isDelete;
 	}
 	
 }

@@ -35,7 +35,6 @@ public class MenuController {
 	public Menu updateMenu(@RequestBody Menu newMenu, @PathVariable Long id){
 		return repo.findById(id).map(
 				menu -> {
-					menu.setId(newMenu.getId());
 					menu.setName(newMenu.getName());
 					menu.setPrice(newMenu.getPrice());
 					menu.setPicture(newMenu.getPicture());

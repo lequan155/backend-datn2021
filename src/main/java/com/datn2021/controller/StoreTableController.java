@@ -52,6 +52,8 @@ public class StoreTableController {
 	
 	@DeleteMapping("/{id}")
 	public void deleteTable(@PathVariable Long id){
-		repo.deleteById(id);;
+		StoreTable newStoreTable = repo.findById(id).get();
+		newStoreTable.setDelete(true);
+		repo.save(newStoreTable);
 	}
 }

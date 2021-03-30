@@ -13,7 +13,8 @@ import lombok.Setter;
 	@Id @GeneratedValue
 	private Long id;
 	private String tableName;
-	private String status = "OK";
+	private String status;
+	private boolean isDelete;
 	
 	public Long getId() {
 		return id;
@@ -32,6 +33,12 @@ import lombok.Setter;
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public boolean isDelete() {
+		return isDelete;
+	}
+	public void setDelete(boolean isDelete) {
+		this.isDelete = isDelete;
 	}
 	
 }

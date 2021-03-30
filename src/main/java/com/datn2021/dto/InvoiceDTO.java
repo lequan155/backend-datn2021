@@ -1,35 +1,19 @@
-package com.datn2021.model;
+package com.datn2021.dto;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import com.datn2021.model.Customer;
+import com.datn2021.model.OrderFinal;
+import com.datn2021.model.Sales;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Data
-@NoArgsConstructor
-public class Invoice {
-	@Id @GeneratedValue
+public class InvoiceDTO {
 	private Long id;
-	@OneToOne(cascade = CascadeType.ALL)
 	private OrderFinal oderFinal;
 	private Long total;
-	@OneToOne(cascade = CascadeType.ALL)
 	private Sales sale;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="customer_id",referencedColumnName = "id")
 	private Customer customer;
 	private Date createDate;
 	private boolean isDelete;
-	
 	public Long getId() {
 		return id;
 	}
@@ -54,17 +38,17 @@ public class Invoice {
 	public void setSale(Sales sale) {
 		this.sale = sale;
 	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
 	public Customer getCustomer() {
 		return customer;
 	}
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	public boolean isDelete() {
 		return isDelete;
@@ -72,6 +56,5 @@ public class Invoice {
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
 	}
-	
 	
 }

@@ -1,45 +1,28 @@
-package com.datn2021.model;
+package com.datn2021.dto;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.datn2021.model.Customer;
+import com.datn2021.model.Invoice;
+import com.datn2021.model.OrderItems;
+import com.datn2021.model.Sales;
+import com.datn2021.model.StoreTable;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @NoArgsConstructor
-public class OrderFinal {
-	@Id @GeneratedValue
+public class OrderFinalDTO {
 	private Long id;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id",referencedColumnName = "id")
 	private Customer customer;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "storeTable_id",referencedColumnName = "id")
 	private StoreTable storeTable;
-	@OneToOne(cascade = CascadeType.ALL)
 	private Invoice invoice;
-	@OneToMany(mappedBy = "orderFinal",cascade = CascadeType.ALL)
 	private List<OrderItems> listOrderItems;
-	@OneToOne(cascade = CascadeType.ALL)
 	private Sales sale;
 	private BigDecimal total;
 	private boolean isDelete;
-	
 	public Long getId() {
 		return id;
 	}
@@ -64,12 +47,12 @@ public class OrderFinal {
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
-//	public List<OrderItems> getListOrderItems() {
-//		return listOrderItems;
-//	}
-//	public void setListOrderItems(List<OrderItems> listOrderItems) {
-//		this.listOrderItems = listOrderItems;
-//	}
+	public List<OrderItems> getListOrderItems() {
+		return listOrderItems;
+	}
+	public void setListOrderItems(List<OrderItems> listOrderItems) {
+		this.listOrderItems = listOrderItems;
+	}
 	public Sales getSale() {
 		return sale;
 	}

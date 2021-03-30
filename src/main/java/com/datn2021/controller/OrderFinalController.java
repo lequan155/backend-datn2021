@@ -1,6 +1,7 @@
 package com.datn2021.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,29 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.model.OrderFinal;
-import com.datn2021.model.PendingOrder;
+import com.datn2021.model.OrderItems;
 import com.datn2021.repo.OrderFinalRepository;
-import com.datn2021.repo.PendingOrderRepository;
+import com.datn2021.repo.OrderItemsRepository;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 @RequestMapping("/table/{id}/orderfinal")
 public class OrderFinalController {
 @Autowired private OrderFinalRepository repo;
-@Autowired private PendingOrderRepository pendingrepo;	
+@Autowired private OrderItemsRepository pendingrepo;	
 	@GetMapping("")
 	public List<OrderFinal> getListOrderFinal(@PathVariable Long id){
-		List<PendingOrder> listPendingOrder = pendingrepo.findAll();
-		OrderFinal finalItem = new OrderFinal();
+		List<OrderItems> listPendingOrder = pendingrepo.findAll();
 		if(!listPendingOrder.isEmpty()) {
-			for(PendingOrder item : listPendingOrder) {
-				finalItem.setTableId(id);
-				finalItem.setItemId(item.getItemId());
-				finalItem.setItemName(item.getItemName());
-				finalItem.setPrice(item.getPrice());
-				finalItem.setCustomerID(null);
-				repo.save(finalItem);
-			}
+			
 		}
 		return repo.findAll();
 	}
@@ -50,11 +43,6 @@ public class OrderFinalController {
 		return repo.findById(id).map(
 				OrderFinal -> {
 					OrderFinal.setId(newOrderFinal.getId());
-					OrderFinal.setItemId(newOrderFinal.getItemId());
-					OrderFinal.setTableId(newOrderFinal.getTableId());
-					OrderFinal.setCustomerID(newOrderFinal.getCustomerID());
-					OrderFinal.setItemName(newOrderFinal.getItemName());
-					OrderFinal.setPrice(newOrderFinal.getPrice());
 					return repo.save(OrderFinal);
 				}).orElseGet(()->{
 					newOrderFinal.setId(id);
@@ -63,7 +51,13 @@ public class OrderFinalController {
 	}
 	@DeleteMapping("/{id}")
 	public void deleteOrderFinal(@PathVariable Long id){
-		repo.deleteById(id);;
+		Optional<OrderFinal> opt = repo.findById(id);
+		OrderFinal newOrderFinal = new OrderFinal();
+		if(opt.isPresent()) {
+			newOrderFinal = opt.get();
+			newOrderFinal.setDelete(true);
+		}
+		repo.save(newOrderFinal);
 	}
 
 }

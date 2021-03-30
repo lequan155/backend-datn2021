@@ -1,31 +1,21 @@
-package com.datn2021.model;
+package com.datn2021.dto;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import com.datn2021.model.Role;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-public class User {
-	@Id @GeneratedValue
+@NoArgsConstructor
+public class UserDTO {
 	private Long id;
-	@Column(unique=true, nullable=false)
 	private String userName;
-	@Column(nullable = false)
 	private String passWord;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="role_id", referencedColumnName = "id")
 	private Role role;
 	private String phoneNo;
 	private String email;
 	private boolean isDelete;
-	
 	public Long getId() {
 		return id;
 	}
@@ -44,6 +34,12 @@ public class User {
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
 	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
@@ -55,12 +51,6 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public Role getRole() {
-		return role;
-	}
-	public void setRole(Role role) {
-		this.role = role;
 	}
 	public boolean isDelete() {
 		return isDelete;
