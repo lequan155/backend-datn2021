@@ -1,7 +1,6 @@
 package com.datn2021.services;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -19,6 +18,16 @@ public class OrderItemsService {
 	
 	public List<OrderItemsDTO> findByTableId(Long id) {
 		List<OrderItems> list = repo.findByTableId(id);
+		List<OrderItemsDTO> listDTO = new ArrayList<OrderItemsDTO>();
+		for (OrderItems orderItems : list) {
+			OrderItemsDTO orderItemsDTO = mapper.map(orderItems, OrderItemsDTO.class);
+			listDTO.add(orderItemsDTO);
+		}
+		return listDTO;
+	}
+	
+	public List<OrderItemsDTO> findByOrderFinalId(Long id){
+		List<OrderItems> list = repo.findByOrderFinalId(id);
 		List<OrderItemsDTO> listDTO = new ArrayList<OrderItemsDTO>();
 		for (OrderItems orderItems : list) {
 			OrderItemsDTO orderItemsDTO = mapper.map(orderItems, OrderItemsDTO.class);

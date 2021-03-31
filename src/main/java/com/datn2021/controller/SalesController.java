@@ -1,6 +1,7 @@
 package com.datn2021.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +18,7 @@ import com.datn2021.model.Sales;
 import com.datn2021.repo.SalesRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/sales")
 public class SalesController {
 @Autowired private SalesRepository repo;
@@ -25,6 +26,10 @@ public class SalesController {
 	@GetMapping("")
 	public List<Sales> getListSales(){
 		return repo.findAll();
+	}
+	@GetMapping("/{id}")
+	public Optional<Sales> getSalesById(@PathVariable Long id) {
+		return repo.findById(id);
 	}
 	
 	@PostMapping("")
@@ -35,9 +40,10 @@ public class SalesController {
 	public Sales updateSales(@RequestBody Sales newSales, @PathVariable Long id){
 		return repo.findById(id).map(
 				Sales -> {
-					Sales.setId(newSales.getId());
+//					Sales.setId(newSales.getId());
 					Sales.setSalesName(newSales.getSalesName());
 					Sales.setDiscountAmount(newSales.getDiscountAmount());
+					Sales.setDescription(newSales.getDescription());
 					return repo.save(Sales);
 				}).orElseGet(()->{
 					newSales.setId(id);

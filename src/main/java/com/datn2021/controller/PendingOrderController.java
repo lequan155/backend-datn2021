@@ -31,7 +31,7 @@ import com.datn2021.services.OrderFinalService;
 import com.datn2021.services.OrderItemsService;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/table/{id}/pendingorder")
 public class PendingOrderController {
 @Autowired private OrderItemsRepository repo;

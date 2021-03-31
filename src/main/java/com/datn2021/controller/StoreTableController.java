@@ -17,7 +17,7 @@ import com.datn2021.model.StoreTable;
 import com.datn2021.repo.StoreTableRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/table")
 public class StoreTableController {
 	
@@ -41,8 +41,43 @@ public class StoreTableController {
 	public StoreTable updateTable(@RequestBody StoreTable newTable, @PathVariable Long id){
 		return repo.findById(id).map(
 				storeTable -> {
-					storeTable.setId(newTable.getId());
+//					storeTable.setId(newTable.getId());
 					storeTable.setTableName(newTable.getTableName());
+					storeTable.setStatus(newTable.getStatus());
+					return repo.save(storeTable);
+				}).orElseGet(()->{
+					newTable.setId(id);
+					return repo.save(newTable);
+				});
+	}
+	
+	@PutMapping("/updateStatusBusy/{id}")
+	public StoreTable updateStatusTable(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		return repo.findById(id).map(
+				storeTable -> {
+					storeTable.setStatus("Busy");
+					return repo.save(storeTable);
+				}).orElseGet(()->{
+					newTable.setId(id);
+					return repo.save(newTable);
+				});
+	}
+	@PutMapping("/updateStatusPending/{id}")
+	public StoreTable updateStatusBusy(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		return repo.findById(id).map(
+				storeTable -> {
+					storeTable.setStatus("Pending");
+					return repo.save(storeTable);
+				}).orElseGet(()->{
+					newTable.setId(id);
+					return repo.save(newTable);
+				});
+	}
+	@PutMapping("/updateStatusReady/{id}")
+	public StoreTable updateStatusReady(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		return repo.findById(id).map(
+				storeTable -> {
+					storeTable.setStatus("Ready");
 					return repo.save(storeTable);
 				}).orElseGet(()->{
 					newTable.setId(id);

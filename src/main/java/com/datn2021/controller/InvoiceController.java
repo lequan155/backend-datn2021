@@ -17,7 +17,7 @@ import com.datn2021.model.Invoice;
 import com.datn2021.repo.InvoiceRepository;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/invoice")
 public class InvoiceController {
 @Autowired private InvoiceRepository repo;
