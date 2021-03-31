@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.datn2021.dto.OrderItemsDTO;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
 import com.datn2021.repo.OrderFinalRepository;
 import com.datn2021.repo.OrderItemsRepository;
+import com.datn2021.services.OrderItemsService;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 @RequestMapping("/table/{id}/orderfinal")
 public class OrderFinalController {
 @Autowired private OrderFinalRepository repo;
-@Autowired private OrderItemsRepository pendingrepo;	
-	@GetMapping("")
-	public List<OrderFinal> getListOrderFinal(@PathVariable Long id){
-		List<OrderItems> listPendingOrder = pendingrepo.findAll();
-		if(!listPendingOrder.isEmpty()) {
-			
-		}
-		return repo.findAll();
+@Autowired private OrderItemsRepository pendingrepo;
+@Autowired private OrderItemsService itemService;
+	@GetMapping("/{id}")
+	public List<OrderItemsDTO> getListOrderFinal(@PathVariable Long id){
+		List<OrderItemsDTO> listFinalItems = itemService.findByOrderFinalId(id);
+		return listFinalItems;
 	}
 	
 	@PostMapping("")

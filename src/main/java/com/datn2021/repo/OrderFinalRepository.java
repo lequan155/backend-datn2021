@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.datn2021.model.OrderFinal;
-import com.datn2021.model.PendingOrder;
 
 public interface OrderFinalRepository extends JpaRepository<OrderFinal, Long> {
 //	@Query(value = "select * from pending_order where table_id= ?1", nativeQuery = true)
