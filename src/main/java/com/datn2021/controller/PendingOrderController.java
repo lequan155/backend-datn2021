@@ -62,6 +62,18 @@ public class PendingOrderController {
 		return repo.save(newPendingOrder);
 	}
 	
+	@PutMapping("/{id}/addNote")
+	public OrderItems updateNotePendingOrder(@RequestBody OrderItems newPendingOrder,@PathVariable Long id) {
+		return repo.findById(id).map(
+				pendingorder -> {
+					pendingorder.setNote(newPendingOrder.getNote());
+					return repo.save(pendingorder);
+				}).orElseGet(()->{
+					newPendingOrder.setId(id);
+					return repo.save(newPendingOrder);
+				});
+	}
+	
 	@DeleteMapping("/{id}")
 	public void deletePendingOrder(@PathVariable Long id){
 		Optional<OrderItems> opt = repo.findById(id);
