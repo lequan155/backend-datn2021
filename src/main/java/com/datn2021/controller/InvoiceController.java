@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.model.Invoice;
+import com.datn2021.model.OrderFinal;
 import com.datn2021.repo.InvoiceRepository;
+import com.datn2021.repo.OrderFinalRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/invoice")
 public class InvoiceController {
 @Autowired private InvoiceRepository repo;
+@Autowired private OrderFinalRepository finalRepo;
 	
 	@GetMapping("")
 	public List<Invoice> getListInvoice(){
@@ -31,6 +34,7 @@ public class InvoiceController {
 	@PostMapping("")
 	public Invoice createInvoice(@RequestBody Invoice newInvoice){
 		newInvoice.setCreateDate(new Date());
+		finalRepo.findById(newInvoice.getOderFinal().getId()).get().setDelete(true);
 		return repo.save(newInvoice);
 	}
 	
