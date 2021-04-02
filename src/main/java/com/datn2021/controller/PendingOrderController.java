@@ -19,6 +19,7 @@ import com.datn2021.model.Customer;
 import com.datn2021.model.Menu;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
+import com.datn2021.model.StoreTable;
 import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.MenuRepository;
 import com.datn2021.repo.OrderFinalRepository;
@@ -39,27 +40,34 @@ public class PendingOrderController {
 
 	@GetMapping("")
 	public List<OrderItemsDTO> getListPendingOrder(@PathVariable Long id){
-		List<OrderItemsDTO> list = service.findByTableId(id);
-		if(!list.isEmpty()) {
-			tableRepo.findById(id).map(storeTable -> {
-					storeTable.setStatus("Busy");
-					tableRepo.save(storeTable);
-					return list;
-				});
+		StoreTable table = tableRepo.findById(id).get();
+		if("Busy".equals(table.getStatus())) {
+			List<OrderItemsDTO> list = service.findByTableId(id);
+			return list;
 		}
-		return list;
+		if("OK".equals(table.getStatus())) {
+			table.setStatus("Busy");
+			tableRepo.save(table);
+			return null;
+		}
+		return null;
 	}
 	
 	@PostMapping("/addcustomer")
-	public Customer addCustomer(@RequestBody Customer customer) {
-			if(customerRepo.findByPhoneNo(customer.getPhoneNo()) == null) {
+	public Customer addCustomer(@RequestBody Customer customer, @PathVariable Long id) {
+		OrderFinal of = finalRepo.findByTableId(id);
+		if(customerRepo.findByPhoneNo(customer.getPhoneNo()) == null) {
 				Customer cus = new Customer();
 				cus.setName(customer.getName());
 				cus.setPhoneNo(customer.getPhoneNo());
 				customerRepo.save(cus);
+				of.setCustomer(cus);
+				finalRepo.save(of);
 				return cus;
-			}
-		return null;
+		}
+		of.setCustomer(customer);
+		finalRepo.save(of);
+		return customerRepo.findByPhoneNo(customer.getPhoneNo());
 	}
 	
 	@PostMapping("")
@@ -128,9 +136,9 @@ public class PendingOrderController {
 				}	
 			}
 			else {
-				return service.findByTableId(id);
+				return service.findByOrderFinalId(id);
 			}
-			return service.findByTableId(id);
+			return service.findByOrderFinalId(id);
 		}
 		catch (Exception e) {
 			System.out.println(e);

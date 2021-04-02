@@ -75,6 +75,7 @@ public class StoreTableController {
 	}
 	@PutMapping("/updateStatusReady/{id}")
 	public StoreTable updateStatusReady(@RequestBody StoreTable newTable, @PathVariable Long id) {
+		
 		return repo.findById(id).map(
 				storeTable -> {
 					storeTable.setStatus("Ready");

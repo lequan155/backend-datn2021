@@ -53,7 +53,8 @@ public class MenuController {
 	}
 	@DeleteMapping("/{id}")
 	public void deleteMenu(@PathVariable Long id){
-		repo.deleteById(id);;
+		Menu menu = repo.findById(id).get();
+		menu.setDelete(true);
 	}
 
 }

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.datn2021.model.OrderFinal;
 
 public interface OrderFinalRepository extends JpaRepository<OrderFinal, Long> {
-//	@Query(value = "select * from pending_order where table_id= ?1", nativeQuery = true)
-//	List<PendingOrder> findItemWithTableId(Long id);
+	@Query(value = "select * from order_final where table_id= ?1 and is_delete = 0", nativeQuery = true)
+	public OrderFinal findByTableId(Long id);
 }

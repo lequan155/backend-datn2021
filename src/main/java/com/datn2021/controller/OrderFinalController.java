@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.config.RepositoryBeanDefinitionParser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.datn2021.dto.OrderItemsDTO;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
+import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.OrderFinalRepository;
 import com.datn2021.repo.OrderItemsRepository;
 import com.datn2021.services.OrderItemsService;
@@ -28,8 +30,10 @@ public class OrderFinalController {
 @Autowired private OrderFinalRepository repo;
 @Autowired private OrderItemsRepository pendingrepo;
 @Autowired private OrderItemsService itemService;
+@Autowired private CustomerRepository customerRepo;
 	@GetMapping("/{id}")
 	public List<OrderItemsDTO> getListOrderFinal(@PathVariable Long id){
+		OrderFinal orderFinal = repo.findById(id).get();
 		List<OrderItemsDTO> listFinalItems = itemService.findByOrderFinalId(id);
 		return listFinalItems;
 	}

@@ -1,5 +1,6 @@
 package com.datn2021.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +30,14 @@ public class InvoiceController {
 	
 	@PostMapping("")
 	public Invoice createInvoice(@RequestBody Invoice newInvoice){
+		newInvoice.setCreateDate(new Date());
 		return repo.save(newInvoice);
-	
 	}
-//	@PutMapping("/{id}")
-//	public Invoice updateInvoice(@RequestBody Invoice newInvoice, @PathVariable Long id){
-//		return repo.findById(id).map(
-//				Invoice -> {
-//					Invoice.setBranchId(null);
-//					Invoice.setDate(null);
-//					Invoice.setOderFinalId(id);
-//					Invoice.setSaleId(null);
-//					Invoice.setTotal(id);
-//					return repo.save(Invoice);
-//				}).orElseGet(()->{
-//					newInvoice.setId(id);
-//					return repo.save(newInvoice);
-//				});
-//	}
+	
 	@DeleteMapping("/{id}")
 	public void deleteInvoice(@PathVariable Long id){
-		repo.deleteById(id);;
+		Invoice invoice = repo.findById(id).get();
+		invoice.setDelete(true);
 	}
 
 }
