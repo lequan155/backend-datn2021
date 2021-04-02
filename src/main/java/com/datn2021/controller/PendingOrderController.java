@@ -50,16 +50,16 @@ public class PendingOrderController {
 		return list;
 	}
 	
-	@PutMapping("/{param}")
-	public void addCustomer(@RequestBody Customer customer, @PathVariable String addcustomer) {
-		if("addcustomer".equals(addcustomer)) {
+	@PostMapping("/addcustomer")
+	public Customer addCustomer(@RequestBody Customer customer) {
 			if(customerRepo.findByPhoneNo(customer.getPhoneNo()) == null) {
 				Customer cus = new Customer();
 				cus.setName(customer.getName());
 				cus.setPhoneNo(customer.getPhoneNo());
 				customerRepo.save(cus);
+				return cus;
 			}
-		}
+		return null;
 	}
 	
 	@PostMapping("")
