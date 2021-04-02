@@ -1,6 +1,7 @@
 package com.datn2021.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.dto.OrderItemsDTO;
+import com.datn2021.model.Customer;
 import com.datn2021.model.Menu;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
+import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.MenuRepository;
 import com.datn2021.repo.OrderFinalRepository;
 import com.datn2021.repo.OrderItemsRepository;
@@ -31,6 +34,7 @@ public class PendingOrderController {
 @Autowired private MenuRepository itemRepo;
 @Autowired private StoreTableRepository tableRepo;
 @Autowired private OrderFinalRepository finalRepo ;
+@Autowired private CustomerRepository customerRepo;
 @Autowired private OrderItemsService service;
 
 	@GetMapping("")
@@ -44,6 +48,18 @@ public class PendingOrderController {
 				});
 		}
 		return list;
+	}
+	
+	@PutMapping("/{param}")
+	public void addCustomer(@RequestBody Customer customer, @PathVariable String addcustomer) {
+		if("addcustomer".equals(addcustomer)) {
+			if(customerRepo.findByPhoneNo(customer.getPhoneNo()) == null) {
+				Customer cus = new Customer();
+				cus.setName(customer.getName());
+				cus.setPhoneNo(customer.getPhoneNo());
+				customerRepo.save(cus);
+			}
+		}
 	}
 	
 	@PostMapping("")
@@ -62,7 +78,7 @@ public class PendingOrderController {
 		return repo.save(newPendingOrder);
 	}
 	
-	@PutMapping("/{id}/addNote")
+	@PostMapping("/{id}/addNote")
 	public OrderItems updateNotePendingOrder(@RequestBody OrderItems newPendingOrder,@PathVariable Long id) {
 		return repo.findById(id).map(
 				pendingorder -> {
