@@ -41,16 +41,24 @@ public class PendingOrderController {
 	@GetMapping("")
 	public List<OrderItemsDTO> getListPendingOrder(@PathVariable Long id){
 		StoreTable table = tableRepo.findById(id).get();
-		if("Busy".equals(table.getStatus())) {
-			List<OrderItemsDTO> list = service.findByTableId(id);
-			return list;
+		List<OrderItemsDTO> list = service.findByTableId(id);
+		if(!list.isEmpty()) {
+			tableRepo.findById(id).map(storeTable -> {
+					storeTable.setStatus("Busy");
+					tableRepo.save(storeTable);
+					return list;
+				});
 		}
-		if("OK".equals(table.getStatus())) {
-			table.setStatus("Busy");
-			tableRepo.save(table);
-			return null;
-		}
-		return null;
+		return list;
+//		if("Busy".equals(table.getStatus())) {
+//			List<OrderItemsDTO> list = service.findByTableId(id);
+//			return list;
+//		}
+//		if("OK".equals(table.getStatus())) {
+//			table.setStatus("Busy");
+//			tableRepo.save(table);
+//			return null;
+//		}
 	}
 	
 	@PostMapping("/addcustomer")
