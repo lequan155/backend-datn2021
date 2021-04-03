@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.datn2021.dto.CustomerDTO;
 import com.datn2021.dto.OrderItemsDTO;
 import com.datn2021.model.Customer;
 import com.datn2021.model.OrderFinal;
@@ -41,7 +42,7 @@ public class OrderFinalController {
 	
 	@GetMapping("/findCustomer/{id}")
 	public Customer getCustomerByFinalId(@PathVariable Long id) {
-		Customer cus = repo.findCustomerByOrderFinal(id);
+		Customer cus = customerRepo.findCustomerByOrderFinal(id);
 		return cus;
 	}
 	
