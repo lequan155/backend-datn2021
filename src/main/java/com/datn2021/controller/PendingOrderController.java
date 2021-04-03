@@ -64,21 +64,24 @@ public class PendingOrderController {
 	@PostMapping("/addcustomer")
 	public Customer addCustomer(@RequestBody Customer customer, @PathVariable Long id) {
 		OrderFinal of = finalRepo.findByTableId(id);
+		Customer cus = new Customer();
+		Customer newCus = new Customer();
+		newCus.setName(customer.getName());
+		newCus.setPhoneNo(customer.getPhoneNo());
+		
+		cus = customerRepo.findByPhoneNo(customer.getPhoneNo());
 		if(of==null) {
 			of = new OrderFinal();
 			of.setStoreTable(tableRepo.findById(id).get());
 			finalRepo.save(of);
 		}
-		if(customerRepo.findByPhoneNo(customer.getPhoneNo()) == null) {
-				Customer cus = new Customer();
-				cus.setName(customer.getName());
-				cus.setPhoneNo(customer.getPhoneNo());
-				customerRepo.save(cus);
-				of.setCustomer(cus);
+		if(cus == null) {
+				customerRepo.save(newCus);
+				of.setCustomer(newCus);
 				finalRepo.save(of);
-				return cus;
+				return newCus;
 		}
-		of.setCustomer(customer);
+		of.setCustomer(cus);
 		finalRepo.save(of);
 		return customerRepo.findByPhoneNo(customer.getPhoneNo());
 	}

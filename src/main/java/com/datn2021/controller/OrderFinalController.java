@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.dto.OrderItemsDTO;
+import com.datn2021.model.Customer;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
 import com.datn2021.repo.CustomerRepository;
@@ -36,6 +37,12 @@ public class OrderFinalController {
 		OrderFinal orderFinal = repo.findById(id).get();
 		List<OrderItemsDTO> listFinalItems = itemService.findByOrderFinalId(id);
 		return listFinalItems;
+	}
+	
+	@GetMapping("/findCustomer/{id}")
+	public Customer getCustomerByFinalId(@PathVariable Long id) {
+		Customer cus = repo.findCustomerByOrderFinal(id);
+		return cus;
 	}
 	
 	@PostMapping("")
