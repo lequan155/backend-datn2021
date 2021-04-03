@@ -1,7 +1,9 @@
 package com.datn2021.controller;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.model.Invoice;
 import com.datn2021.model.OrderFinal;
+import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.InvoiceRepository;
 import com.datn2021.repo.OrderFinalRepository;
+import com.datn2021.repo.SalesRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,6 +29,8 @@ import com.datn2021.repo.OrderFinalRepository;
 public class InvoiceController {
 @Autowired private InvoiceRepository repo;
 @Autowired private OrderFinalRepository finalRepo;
+@Autowired private CustomerRepository cusRepo;
+@Autowired private SalesRepository saleRepo;
 	
 	@GetMapping("")
 	public List<Invoice> getListInvoice(){
@@ -32,9 +38,18 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("")
-	public Invoice createInvoice(@RequestBody Invoice newInvoice){
+	public Invoice createInvoice(@RequestBody Map<String, String> dataInvoice){
+		Invoice newInvoice = new Invoice();
+		newInvoice.setTotal(BigDecimal.valueOf(Double.parseDouble(dataInvoice.get("total"))));
+		newInvoice.setOderFinal(finalRepo.findById(Long.parseLong(dataInvoice.get("order_final_id"))).get());
+		newInvoice.setCustomer(cusRepo.findById(Long.parseLong(dataInvoice.get("customer_id"))).get());
+		newInvoice.setSale(saleRepo.findById(Long.parseLong(dataInvoice.get("sale_id"))).get());
 		newInvoice.setCreateDate(new Date());
-//		finalRepo.findById(newInvoice.getOderFinal().getId()).get().setDelete(true);
+		
+		OrderFinal of = finalRepo.findById(newInvoice.getOderFinal().getId()).get();
+		of.setDelete(true);
+		finalRepo.save(of);
+		
 		return repo.save(newInvoice);
 	}
 	

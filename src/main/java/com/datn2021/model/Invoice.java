@@ -1,5 +1,6 @@
 package com.datn2021.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ public class Invoice {
 	private Long id;
 	@OneToOne(cascade = CascadeType.ALL)
 	private OrderFinal oderFinal;
-	private Long total;
+	private BigDecimal total;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Sales sale;
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -42,10 +43,10 @@ public class Invoice {
 	public void setOderFinal(OrderFinal oderFinal) {
 		this.oderFinal = oderFinal;
 	}
-	public Long getTotal() {
+	public BigDecimal getTotal() {
 		return total;
 	}
-	public void setTotal(Long total) {
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 	public Sales getSale() {
