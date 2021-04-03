@@ -34,7 +34,7 @@ public class InvoiceController {
 	@PostMapping("")
 	public Invoice createInvoice(@RequestBody Invoice newInvoice){
 		newInvoice.setCreateDate(new Date());
-		finalRepo.findById(newInvoice.getOderFinal().getId()).get().setDelete(true);
+//		finalRepo.findById(newInvoice.getOderFinal().getId()).get().setDelete(true);
 		return repo.save(newInvoice);
 	}
 	

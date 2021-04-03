@@ -42,13 +42,13 @@ public class PendingOrderController {
 	public List<OrderItemsDTO> getListPendingOrder(@PathVariable Long id){
 		StoreTable table = tableRepo.findById(id).get();
 		List<OrderItemsDTO> list = service.findByTableId(id);
-		if(!list.isEmpty()) {
-			tableRepo.findById(id).map(storeTable -> {
-					storeTable.setStatus("Busy");
-					tableRepo.save(storeTable);
-					return list;
-				});
-		}
+//		if(!list.isEmpty()) {
+//			tableRepo.findById(id).map(storeTable -> {
+//					storeTable.setStatus("Busy");
+//					tableRepo.save(storeTable);
+//					return list;
+//				});
+//		}
 		return list;
 //		if("Busy".equals(table.getStatus())) {
 //			List<OrderItemsDTO> list = service.findByTableId(id);
@@ -64,6 +64,11 @@ public class PendingOrderController {
 	@PostMapping("/addcustomer")
 	public Customer addCustomer(@RequestBody Customer customer, @PathVariable Long id) {
 		OrderFinal of = finalRepo.findByTableId(id);
+		if(of==null) {
+			of = new OrderFinal();
+			of.setStoreTable(tableRepo.findById(id).get());
+			finalRepo.save(of);
+		}
 		if(customerRepo.findByPhoneNo(customer.getPhoneNo()) == null) {
 				Customer cus = new Customer();
 				cus.setName(customer.getName());
@@ -120,15 +125,8 @@ public class PendingOrderController {
 	@PostMapping("/{param}")
 	public List<OrderItemsDTO> addMenuItem (@RequestBody List<Long> list,@PathVariable Long id, @PathVariable String param){
 		try {
+			OrderFinal newOrderFinal = finalRepo.findByTableId(id);
 			if("addItem".equals(param)) {
-				OrderFinal newOrderFinal = new OrderFinal();
-				if(repo.findByTableId(id).isEmpty()) {
-					newOrderFinal.setStoreTable(tableRepo.findById(id).get());
-					finalRepo.save(newOrderFinal);
-				}
-				else {
-					newOrderFinal = finalRepo.findById(repo.findFinalOrderId(id)).get();
-				}
 				for(Long i:list) {
 					Menu item = new Menu();
 					OrderItems newOrderItems = new OrderItems();
@@ -144,9 +142,9 @@ public class PendingOrderController {
 				}	
 			}
 			else {
-				return service.findByOrderFinalId(id);
+				return service.findByOrderFinalId(newOrderFinal.getId());
 			}
-			return service.findByOrderFinalId(id);
+			return service.findByOrderFinalId(newOrderFinal.getId());
 		}
 		catch (Exception e) {
 			System.out.println(e);
