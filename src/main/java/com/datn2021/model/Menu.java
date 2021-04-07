@@ -1,9 +1,14 @@
 package com.datn2021.model;
 
 import java.math.BigDecimal;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import lombok.Data;
 
 @Entity
@@ -14,8 +19,13 @@ public class Menu {
 	private String name;
 	private BigDecimal price;
 	private String picture;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="types_id", referencedColumnName = "id")
+	private MenuTypes type;
 	private boolean status;
+	private boolean isActive;
 	private boolean isDelete;
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,6 +61,18 @@ public class Menu {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public MenuTypes getType() {
+		return type;
+	}
+	public void setType(MenuTypes type) {
+		this.type = type;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }

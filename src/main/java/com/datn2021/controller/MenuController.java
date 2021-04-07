@@ -27,6 +27,11 @@ public class MenuController {
 		return repo.findAll();
 	}
 	
+	@GetMapping("/types/{id}")
+	public List<Menu> getListMenuByTypes(@PathVariable Long id){
+		return repo.findByTypes(id);
+	}
+	
 	@PostMapping("")
 	public Menu createMenu(@RequestBody Menu newMenu){
 		return repo.save(newMenu);
@@ -44,7 +49,9 @@ public class MenuController {
 					menu.setName(newMenu.getName());
 					menu.setPrice(newMenu.getPrice());
 					menu.setPicture(newMenu.getPicture());
+					menu.setType(newMenu.getType());
 					menu.setStatus(newMenu.isStatus());
+					menu.setActive(newMenu.isActive());
 					return repo.save(menu);
 				}).orElseGet(()->{
 					newMenu.setId(id);

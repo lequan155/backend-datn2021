@@ -14,6 +14,7 @@ import lombok.Setter;
 	private Long id;
 	private String tableName;
 	private String status;
+	private boolean isActive;
 	private boolean isDelete;
 	
 	public Long getId() {
@@ -39,6 +40,12 @@ import lombok.Setter;
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }

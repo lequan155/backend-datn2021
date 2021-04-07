@@ -30,6 +30,7 @@ public class OrderItems {
 	@ManyToOne
 	@JoinColumn(name = "orderFinal_id",referencedColumnName = "id")
 	private OrderFinal orderFinal;
+	private boolean isActive;
 	private boolean isDelete;
 	
 	
@@ -74,6 +75,12 @@ public class OrderItems {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }

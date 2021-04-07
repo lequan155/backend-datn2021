@@ -24,6 +24,7 @@ public class User {
 	private Role role;
 	private String phoneNo;
 	private String email;
+	private boolean isActive;
 	private boolean isDelete;
 	
 	public Long getId() {
@@ -67,6 +68,12 @@ public class User {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }

@@ -1,31 +1,17 @@
-package com.datn2021.model;
+package com.datn2021.dto;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
-import lombok.Data;
-
-@Entity
-@Data
-public class Customer {
-	@Id @GeneratedValue
+public class CustomerDTO {
 	private Long id;
 	private String name;
 	private String email;
-	@Column(unique = true)
 	private String phoneNo;
 	private String address;
 	private Long pts;
-	private boolean isActive;
 	private boolean isDelete;
-	
 	public Long getId() {
 		return id;
 	}
@@ -67,12 +53,6 @@ public class Customer {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
-	}
-	public boolean isActive() {
-		return isActive;
-	}
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
 	}
 	
 }
