@@ -137,8 +137,8 @@ public class PendingOrderController {
 					newOrderItems.setItem(item);
 					newOrderItems.setOrderFinal(newOrderFinal);
 					newOrderItems.setDelete(false);
-					newOrderItems.setStatus(false);
-					//newPendingOrder.setQty(0);
+					//newOrderItems.setStatus(false);
+					newOrderItems.setQty(1);
 					//newPendingOrder.setNote(null);
 					newOrderItems.setStatus(false);
 					repo.save(newOrderItems);
