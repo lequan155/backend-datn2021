@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -19,7 +20,7 @@ import lombok.Data;
 @Entity
 @Data
 public class OrderItems {
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@ManyToOne
 	@JoinColumn(name = "menu_id",referencedColumnName = "id")

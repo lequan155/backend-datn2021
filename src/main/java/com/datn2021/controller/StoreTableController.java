@@ -23,9 +23,9 @@ public class StoreTableController {
 	
 	@Autowired private StoreTableRepository repo;
 	
-	@GetMapping("")
-	public List<StoreTable> getListTable(){
-		return repo.findAll();
+	@PostMapping("/index/{limit}")
+	public List<StoreTable> getListTable(@PathVariable int limit){
+		return repo.findAll(limit);
 	}
 	
 	@GetMapping("/{id}")
@@ -35,6 +35,9 @@ public class StoreTableController {
 	
 	@PostMapping("")
 	public StoreTable createTable(@RequestBody StoreTable newTable){
+		if(newTable.getId()==null) {
+			newTable.setId(new Long(0));
+		}
 		return repo.save(newTable);
 	
 	}@PutMapping("/{id}")

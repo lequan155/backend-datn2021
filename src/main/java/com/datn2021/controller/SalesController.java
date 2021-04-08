@@ -34,6 +34,9 @@ public class SalesController {
 	
 	@PostMapping("")
 	public Sales createSales(@RequestBody Sales newSales){
+		if(newSales.getId()==null) {
+			newSales.setId(new Long(0));
+		}
 		return repo.save(newSales);
 	
 	}@PutMapping("/{id}")

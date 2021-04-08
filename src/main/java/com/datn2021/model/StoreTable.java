@@ -2,6 +2,7 @@ package com.datn2021.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.Setter;
 
 @Entity
 @Data public class StoreTable {
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String tableName;
 	private String status;

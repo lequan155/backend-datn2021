@@ -39,6 +39,9 @@ public class MenuController {
 	
 	@PostMapping("")
 	public Menu createMenu(@RequestBody Menu newMenu){
+		if(newMenu.getId() == null) {
+			newMenu.setId(new Long(0));
+		}
 		return repo.save(newMenu);
 	
 	}

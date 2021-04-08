@@ -48,6 +48,9 @@ public class OrderFinalController {
 	
 	@PostMapping("")
 	public OrderFinal createOrderFinal(@RequestBody OrderFinal newOrderFinal){
+		if(newOrderFinal.getId()==null) {
+			newOrderFinal.setId(new Long(0));
+		}
 		return repo.save(newOrderFinal);
 	
 	}@PutMapping("/{id}")

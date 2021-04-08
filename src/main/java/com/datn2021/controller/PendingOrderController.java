@@ -88,7 +88,9 @@ public class PendingOrderController {
 	
 	@PostMapping("")
 	public OrderItems createPendingOrder(@RequestBody OrderItems newPendingOrder){
-		newPendingOrder.toString();
+		if(newPendingOrder.getId()==null) {
+			newPendingOrder.setId(new Long(0));
+		}
 		return repo.save(newPendingOrder);
 	}
 	@PutMapping("/{id}")

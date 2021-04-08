@@ -29,6 +29,9 @@ public class CustomerController {
 	
 	@PostMapping("")
 	public Customer createCustomer(@RequestBody Customer newCustomer){
+		if(newCustomer.getId()==null) {
+			newCustomer.setId(new Long(0));
+		}
 		return repo.save(newCustomer);
 	
 	}
