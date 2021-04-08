@@ -28,6 +28,11 @@ public class MenuController {
 	}
 	
 	@GetMapping("/types/{id}")
+	public List<Menu> showListMenuByTypes(@PathVariable Long id){
+		return repo.showMenu(id);
+	}
+	
+	@GetMapping("/crudmenu/{id}")
 	public List<Menu> getListMenuByTypes(@PathVariable Long id){
 		return repo.findByTypes(id);
 	}
