@@ -23,7 +23,7 @@ public class StoreTableController {
 	
 	@Autowired private StoreTableRepository repo;
 	
-	@PostMapping("/index/{limit}")
+	@GetMapping("/index/{limit}")
 	public List<StoreTable> getListTable(@PathVariable int limit){
 		return repo.findAll(limit);
 	}
