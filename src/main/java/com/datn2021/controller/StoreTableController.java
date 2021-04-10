@@ -23,6 +23,11 @@ public class StoreTableController {
 	
 	@Autowired private StoreTableRepository repo;
 	
+	@GetMapping("")
+	public List<StoreTable> getListTableCrud(){
+		return repo.findAll();
+	}
+	
 	@GetMapping("/index/{limit}")
 	public List<StoreTable> getListTable(@PathVariable int limit){
 		return repo.findAll(limit);
