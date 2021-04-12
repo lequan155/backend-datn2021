@@ -140,7 +140,7 @@ public class PendingOrderController {
 				Map item = map.get(i);
 				itemId = item.get("id").toString();
 				itemQty = item.get("qty").toString();
-				if(repo.findByMenuId(Long.parseLong(itemId)) == null){
+				if(repo.findByMenuId(Long.parseLong(itemId),newOrderFinal.getId()) == null){
 					OrderItems newOrderItems = new OrderItems();
 					newOrderItems.setItem(itemRepo.findMenuItemById(Long.parseLong(itemId)));
 					newOrderItems.setOrderFinal(newOrderFinal);
@@ -150,7 +150,7 @@ public class PendingOrderController {
 					repo.save(newOrderItems);
 				}
 				else {
-					OrderItems newOrderItems = repo.findByMenuId(Long.parseLong(itemId));
+					OrderItems newOrderItems = repo.findByMenuId(Long.parseLong(itemId),newOrderFinal.getId());
 					int newQty = newOrderItems.getQty() + Integer.parseInt(itemQty);
 					newOrderItems.setQty(newQty);
 					repo.save(newOrderItems);
@@ -165,18 +165,41 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("/cancelitem")
-	public List<OrderItemsDTO> cancelMenuItem (@RequestBody OrderItems citem,@PathVariable Long id){
+	public List<OrderItemsDTO> cancelMenuItem (@RequestBody Map<String,Long> citem,@PathVariable Long id){
+		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
+		Long fid = newOrderFinal.getId();
 		try {
 			if(citem!= null) {
-				int newQty = citem.getQty() - 1;
-				if(newQty <= 0) {
-					citem.setActive(false);
+				Long cid = citem.get("id");
+				int cqty = citem.get("qtyDestroy").intValue();
+				OrderItems newOrderItem = repo.findByMenuId(cid,fid);
+				OrderItems cancelOrderItem = repo.findCancelItemByMenuId(cid,fid);
+				int oldQty = newOrderItem.getQty();
+				newOrderItem.setQty(oldQty - cqty);
+				if(cancelOrderItem == null) {
+					OrderItems newCancelOrderItem = new OrderItems();
+					newCancelOrderItem.setDelete(false);
+					newCancelOrderItem.setOrderFinal(newOrderFinal);
+					newCancelOrderItem.setItem(itemRepo.findMenuItemById(cid));
+					newCancelOrderItem.setQty(cqty);
+					newCancelOrderItem.setActive(false);
+					repo.save(newCancelOrderItem);
 				}
+				else if(cancelOrderItem != null) {
+					int cancelQty = cancelOrderItem.getQty();
+					cancelOrderItem.setQty(cancelQty + cqty);
+					repo.save(cancelOrderItem);
+				}
+				if(newOrderItem.getQty() <= 0) {
+					newOrderItem.setDelete(true);
+					repo.save(newOrderItem);
+				}
+				return service.findByOrderFinalId(newOrderFinal.getId());
 			}
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 		}
-		return null;
+		return service.findByOrderFinalId(newOrderFinal.getId());
 	}
 }
