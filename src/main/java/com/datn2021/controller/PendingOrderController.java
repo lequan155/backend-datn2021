@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +64,13 @@ public class PendingOrderController {
 //			tableRepo.save(table);
 //			return null;
 //		}
+	}
+	
+	@GetMapping("/listcancel")
+	public ResponseEntity<List<OrderItemsDTO>> getListCancelItems(@PathVariable Long id){
+		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
+		List<OrderItemsDTO> list = service.listCancelItemsByOrderFinalId(newOrderFinal.getId());
+		return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
 	}
 	
 	@PostMapping("/addcustomer")

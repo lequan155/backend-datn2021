@@ -35,4 +35,14 @@ public class OrderItemsService {
 		}
 		return listDTO;
 	}
+	
+	public List<OrderItemsDTO> listCancelItemsByOrderFinalId(Long id){
+		List<OrderItems> list = repo.listCancelItemsByOrderFinalId(id);
+		List<OrderItemsDTO> listDTO = new ArrayList<OrderItemsDTO>();
+		for (OrderItems orderItems : list) {
+			OrderItemsDTO orderItemsDTO = mapper.map(orderItems, OrderItemsDTO.class);
+			listDTO.add(orderItemsDTO);
+		}
+		return listDTO;
+	}
 }
