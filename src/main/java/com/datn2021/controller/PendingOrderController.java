@@ -1,8 +1,11 @@
 package com.datn2021.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -99,7 +102,7 @@ public class PendingOrderController {
 		OrderItems newPendingOrder = new OrderItems();
 		if(opt.isPresent()) {
 			newPendingOrder = opt.get();
-			newPendingOrder.setStatus(true);
+//			newPendingOrder.setStatus(true);
 		}
 		return repo.save(newPendingOrder);
 	}
@@ -127,33 +130,39 @@ public class PendingOrderController {
 		repo.save(newPendingOrder);
 	}
 
-	@PostMapping("/{param}")
-	public List<OrderItemsDTO> addMenuItem (@RequestBody List<Long> list,@PathVariable Long id, @PathVariable String param){
+	@PostMapping("/additem")
+	public List<OrderItemsDTO> addMenuItem (@RequestBody Map<String,Map> map,@PathVariable Long id){
 		try {
+			String itemId = null;
+			String itemQty = null;
 			OrderFinal newOrderFinal = finalRepo.findByTableId(id);
-			if("addItem".equals(param)) {
-				for(Long i:list) {
-					Menu item = new Menu();
+			for (int i = 0; !map.isEmpty() && i < map.size(); i++) {
+				Map item = map.get(String.valueOf(i));
+				itemId = item.get("id").toString();
+				itemQty = item.get("qty").toString();
+				if(repo.findByMenuId(Long.parseLong(itemId)) == null){
 					OrderItems newOrderItems = new OrderItems();
-					item = itemRepo.findMenuItemById(i);
-					newOrderItems.setItem(item);
+					newOrderItems.setItem(itemRepo.findMenuItemById(Long.parseLong(itemId)));
 					newOrderItems.setOrderFinal(newOrderFinal);
 					newOrderItems.setDelete(false);
-					//newOrderItems.setStatus(false);
-					newOrderItems.setQty(1);
-					//newPendingOrder.setNote(null);
-					newOrderItems.setStatus(false);
+					newOrderItems.setQty(Integer.parseInt(itemQty));
+					newOrderItems.setActive(true);
+					repo.save(newOrderItems);
+				}
+				else {
+					OrderItems newOrderItems = repo.findByMenuId(Long.parseLong(itemId));
+					int newQty = newOrderItems.getQty() + Integer.parseInt(itemQty);
+					newOrderItems.setQty(newQty);
 					repo.save(newOrderItems);
 				}	
-			}
-			else {
-				return service.findByOrderFinalId(newOrderFinal.getId());
 			}
 			return service.findByOrderFinalId(newOrderFinal.getId());
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			
 		}
 		return service.findByTableId(id); 
 	}
+	
+	
 }

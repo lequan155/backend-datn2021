@@ -25,7 +25,7 @@ public class OrderItems {
 	@ManyToOne
 	@JoinColumn(name = "menu_id",referencedColumnName = "id")
 	private Menu Item;
-	private boolean status = false;
+//	private boolean status = false;
 	private String note;
 	private int qty;
 	@ManyToOne
@@ -47,12 +47,12 @@ public class OrderItems {
 	public void setItem(Menu item) {
 		Item = item;
 	}
-	public boolean isStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+//	public boolean isStatus() {
+//		return status;
+//	}
+//	public void setStatus(boolean status) {
+//		this.status = status;
+//	}
 	public String getNote() {
 		return note;
 	}
