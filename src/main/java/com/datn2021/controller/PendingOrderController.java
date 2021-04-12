@@ -131,13 +131,13 @@ public class PendingOrderController {
 	}
 
 	@PostMapping("/additem")
-	public List<OrderItemsDTO> addMenuItem (@RequestBody Map<String,Map> map,@PathVariable Long id){
+	public List<OrderItemsDTO> addMenuItem (@RequestBody List<Map> map,@PathVariable Long id){
 		try {
 			String itemId = null;
 			String itemQty = null;
 			OrderFinal newOrderFinal = finalRepo.findByTableId(id);
 			for (int i = 0; !map.isEmpty() && i < map.size(); i++) {
-				Map item = map.get(String.valueOf(i));
+				Map item = map.get(i);
 				itemId = item.get("id").toString();
 				itemQty = item.get("qty").toString();
 				if(repo.findByMenuId(Long.parseLong(itemId)) == null){
@@ -164,5 +164,19 @@ public class PendingOrderController {
 		return service.findByTableId(id); 
 	}
 	
-	
+	@PostMapping("/cancelitem")
+	public List<OrderItemsDTO> cancelMenuItem (@RequestBody OrderItems citem,@PathVariable Long id){
+		try {
+			if(citem!= null) {
+				int newQty = citem.getQty() - 1;
+				if(newQty <= 0) {
+					citem.setActive(false);
+				}
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 }
