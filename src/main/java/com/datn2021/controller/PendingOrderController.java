@@ -57,6 +57,13 @@ public class PendingOrderController {
 		return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
 	}
 	
+	@GetMapping("/listok")
+	public ResponseEntity<List<OrderItemsDTO>> getListOkItems(@PathVariable Long id){
+		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
+		List<OrderItemsDTO> list = service.findByOrderFinalId(newOrderFinal.getId());
+		return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
+	}
+	
 	@PostMapping("/addcustomer")
 	public Customer addCustomer(@RequestBody Customer customer, @PathVariable Long id) {
 		OrderFinal of = finalRepo.findByTableId(id);
