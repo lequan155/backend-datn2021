@@ -44,27 +44,11 @@ public class PendingOrderController {
 @Autowired private OrderItemsService service;
 
 	@GetMapping("")
-	public List<OrderItemsDTO> getListPendingOrder(@PathVariable Long id){
+	public ResponseEntity<List<OrderItemsDTO>> getListPendingOrder(@PathVariable Long id){
 		StoreTable table = tableRepo.findById(id).get();
 		List<OrderItemsDTO> list = service.findByTableId(id);
-//		if(!list.isEmpty()) {
-//			tableRepo.findById(id).map(storeTable -> {
-//					storeTable.setStatus("Busy");
-//					tableRepo.save(storeTable);
-//					return list;
-//				});
-//		}
-		return list;
-//		if("Busy".equals(table.getStatus())) {
-//			List<OrderItemsDTO> list = service.findByTableId(id);
-//			return list;
-//		}
-//		if("OK".equals(table.getStatus())) {
-//			table.setStatus("Busy");
-//			tableRepo.save(table);
-//			return null;
-//		}
-	}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+}
 	
 	@GetMapping("/listcancel")
 	public ResponseEntity<List<OrderItemsDTO>> getListCancelItems(@PathVariable Long id){
@@ -140,7 +124,7 @@ public class PendingOrderController {
 	}
 
 	@PostMapping("/additem")
-	public List<OrderItemsDTO> addMenuItem (@RequestBody List<Map> map,@PathVariable Long id){
+	public ResponseEntity<List<OrderItemsDTO>> addMenuItem (@RequestBody List<Map> map,@PathVariable Long id){
 		try {
 			String itemId = null;
 			String itemQty = null;
@@ -165,12 +149,12 @@ public class PendingOrderController {
 					repo.save(newOrderItems);
 				}	
 			}
-			return service.findByOrderFinalId(newOrderFinal.getId());
+			return new ResponseEntity<>(service.findByOrderFinalId(newOrderFinal.getId()),HttpStatus.OK);
 		}
 		catch (Exception e) {
 			
 		}
-		return service.findByTableId(id); 
+		return new ResponseEntity<>(service.findByTableId(id),HttpStatus.OK); 
 	}
 	
 	@PostMapping("/cancelitem")

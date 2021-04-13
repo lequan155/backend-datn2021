@@ -12,10 +12,11 @@ import lombok.NoArgsConstructor;
 public class OrderItemsDTO {
 	private Long id;
 	private Menu Item;
-	private boolean status = false;
+//	private boolean status = false;
 	private String note;
 	private int qty;
 	private OrderFinal orderFinal;
+	private boolean isActive;
 	private boolean isDelete;
 	public Long getId() {
 		return id;
@@ -28,12 +29,6 @@ public class OrderItemsDTO {
 	}
 	public void setItem(Menu item) {
 		Item = item;
-	}
-	public boolean isStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 	public String getNote() {
 		return note;
@@ -58,6 +53,12 @@ public class OrderItemsDTO {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }
