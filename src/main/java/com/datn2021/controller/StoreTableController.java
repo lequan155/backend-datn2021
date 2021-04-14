@@ -86,7 +86,7 @@ public class StoreTableController {
 		
 		return repo.findById(id).map(
 				storeTable -> {
-					storeTable.setStatus("Ready");
+					storeTable.setStatus("OK");
 					return repo.save(storeTable);
 				}).orElseGet(()->{
 					newTable.setId(id);

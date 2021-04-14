@@ -76,7 +76,16 @@ public class InvoiceController {
 		if(!dataInvoice.isEmpty()) {
 			Date fromDate = dataInvoice.get("fromDate");
 			Date toDate = dataInvoice.get("toDate");
-			list = repo.findInvoiceByDate(fromDate, toDate);
+			list = repo.findListInvoiceByDateToDate(fromDate, toDate);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	@PostMapping("/listbyonedate")
+	public ResponseEntity<List<Invoice>> ListInvoiceByOneDate(@RequestBody Date dataInvoice){
+		List<Invoice> list = new ArrayList<>();
+		if(dataInvoice != null) {
+			list = repo.findListInvoiceByOneDate(dataInvoice);
 		}
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
