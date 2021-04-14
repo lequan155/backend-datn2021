@@ -91,6 +91,26 @@ public class InvoiceController {
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 	
+	@PostMapping("/listbyonemonth")
+	public ResponseEntity<List<Invoice>> ListInvoiceByOneMonth(@RequestBody Map<String, Date> dataInvoice){
+		List<Invoice> list = new ArrayList<>();
+		if(dataInvoice != null) {
+			Date date = dataInvoice.get("date");
+			list = repo.findListInvoiceByOneMonth(date);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	@PostMapping("/listbyoneyear")
+	public ResponseEntity<List<Invoice>> ListInvoiceByOneYear(@RequestBody Map<String, Date> dataInvoice){
+		List<Invoice> list = new ArrayList<>();
+		if(dataInvoice != null) {
+			Date date = dataInvoice.get("date");
+			list = repo.findListInvoiceByOneYear(date);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
 	@PostMapping("/bestseller")
 	public ResponseEntity<Menu> getBestSellMenu(){
 		Menu menu = repo.getBestSeller();
