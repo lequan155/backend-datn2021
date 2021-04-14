@@ -82,10 +82,11 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbyonedate")
-	public ResponseEntity<List<Invoice>> ListInvoiceByOneDate(@RequestBody Date dataInvoice){
+	public ResponseEntity<List<Invoice>> ListInvoiceByOneDate(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null) {
-			list = repo.findListInvoiceByOneDate(dataInvoice);
+			Date date = dataInvoice.get("date");
+			list = repo.findListInvoiceByOneDate(date);
 		}
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}

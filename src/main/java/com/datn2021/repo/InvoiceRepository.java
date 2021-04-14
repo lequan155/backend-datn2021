@@ -27,6 +27,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND i.create_date BETWEEN ?1 AND ?2",nativeQuery = true)
 	public List<Invoice> findListInvoiceByDateToDate (Date fromDate, Date toDate);
 	
-	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND i.create_date = ?1",nativeQuery = true)
+	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND DATE(i.create_date) = DATE(?1)",nativeQuery = true)
 	public List<Invoice> findListInvoiceByOneDate (Date date);
 }
