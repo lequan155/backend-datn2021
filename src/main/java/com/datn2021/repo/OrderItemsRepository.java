@@ -27,4 +27,6 @@ public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {
 	@Query(value = "select i.* from order_items i left join order_final f on i.order_final_id = f.id where i.order_final_id = ?1 and i.is_delete = 0 and i.is_active = 0", nativeQuery = true)
 	List<OrderItems> listCancelItemsByOrderFinalId(Long id);
 	
+	@Query(value = "select i.* from order_items i LEFT JOIN order_final o ON i.order_final_id = o.id LEFT JOIN invoice iv ON o.id = iv.oder_final_id WHERE i.is_delete = 0 AND i.is_active = 1 AND iv.id = ?1",nativeQuery = true)
+	public List<OrderItems> findOrderItemsByInvoiceId(Long id);
 }
