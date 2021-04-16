@@ -27,13 +27,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	@Query(value = "select SUM(total) as totalAmount from invoice WHERE is_delete = 0 AND YEAR(create_date) = YEAR(?1)", nativeQuery = true)
 	public BigDecimal findTotalByYear(Date date);
 	
-	@Query(value = "SELECT m.*,"
-			+ "(SELECT COUNT(menu_id) FROM order_items o WHERE o.menu_id = m.id AND o.is_active = 1 and o.is_delete = 0) as totalcount, "
-			+ "(SELECT SUM(o.qty) from order_items o WHERE o.menu_id = m.id AND o.is_active = 1 and o.is_delete = 0 ) as qty "
-			+ "FROM menu m LEFT JOIN order_items o on m.id = o.menu_id "
-			+ "GROUP BY m.id ORDER BY qty DESC limit 1" ,nativeQuery = true)
-	public Menu getBestSeller();
-	
 	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND i.create_date BETWEEN ?1 AND ?2",nativeQuery = true)
 	public List<Invoice> findListInvoiceByDateToDate (Date fromDate, Date toDate);
 	

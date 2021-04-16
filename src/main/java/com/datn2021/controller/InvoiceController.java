@@ -26,6 +26,7 @@ import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
 import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.InvoiceRepository;
+import com.datn2021.repo.MenuRepository;
 import com.datn2021.repo.OrderFinalRepository;
 import com.datn2021.repo.OrderItemsRepository;
 import com.datn2021.repo.SalesRepository;
@@ -39,6 +40,7 @@ public class InvoiceController {
 @Autowired private CustomerRepository cusRepo;
 @Autowired private SalesRepository saleRepo;
 @Autowired private OrderItemsRepository itemRepo;
+@Autowired private MenuRepository menuRepo;
 	
 	@GetMapping("")
 	public List<Invoice> getListInvoice(){
@@ -198,7 +200,7 @@ public class InvoiceController {
 	
 	@PostMapping("/bestseller")
 	public ResponseEntity<Menu> getBestSellMenu(){
-		Menu menu = repo.getBestSeller();
+		Menu menu = menuRepo.getBestSeller();
 		return new ResponseEntity<Menu>(menu,HttpStatus.OK);
 	}
 	
