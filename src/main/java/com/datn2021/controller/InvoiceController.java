@@ -24,12 +24,14 @@ import com.datn2021.model.Invoice;
 import com.datn2021.model.Menu;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
+import com.datn2021.model.StoreTable;
 import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.InvoiceRepository;
 import com.datn2021.repo.MenuRepository;
 import com.datn2021.repo.OrderFinalRepository;
 import com.datn2021.repo.OrderItemsRepository;
 import com.datn2021.repo.SalesRepository;
+import com.datn2021.repo.StoreTableRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -41,6 +43,7 @@ public class InvoiceController {
 @Autowired private SalesRepository saleRepo;
 @Autowired private OrderItemsRepository itemRepo;
 @Autowired private MenuRepository menuRepo;
+@Autowired private StoreTableRepository tableRepo;
 	
 	@GetMapping("")
 	public List<Invoice> getListInvoice(){
@@ -50,6 +53,7 @@ public class InvoiceController {
 	@PostMapping("")
 	public ResponseEntity<Invoice> createInvoice(@RequestBody Map<String, String> dataInvoice){
 		Invoice newInvoice = new Invoice();
+		Long tbid = new Long(999);
 		newInvoice.setTotal(BigDecimal.valueOf(Double.parseDouble(dataInvoice.get("total"))));
 		newInvoice.setOderFinal(finalRepo.findById(Long.parseLong(dataInvoice.get("order_final_id"))).get());
 		newInvoice.setCustomer(cusRepo.findById(Long.parseLong(dataInvoice.get("customer_id"))).get());
@@ -59,6 +63,11 @@ public class InvoiceController {
 		newInvoice.setCreateDate(new Date());
 		
 		OrderFinal of = finalRepo.findById(newInvoice.getOderFinal().getId()).get();
+		if(of.getStoreTable().getId() == tbid) {
+			StoreTable table = tableRepo.findById(tbid).get();
+			table.setStatus("OK");
+			tableRepo.save(table);
+		}
 		of.setDelete(true);
 		finalRepo.save(of);
 		
