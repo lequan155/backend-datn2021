@@ -36,7 +36,7 @@ public class OrderFinalController {
 	@GetMapping("/{id}")
 	public List<OrderItemsDTO> getListOrderFinal(@PathVariable Long id){
 		OrderFinal orderFinal = repo.findById(id).get();
-		List<OrderItemsDTO> listFinalItems = itemService.findByOrderFinalId(id);
+		List<OrderItemsDTO> listFinalItems = itemService.findActiveByOrderFinalId(id);
 		return listFinalItems;
 	}
 	

@@ -26,8 +26,18 @@ public class OrderItemsService {
 		return listDTO;
 	}
 	
-	public List<OrderItemsDTO> findByOrderFinalId(Long id){
-		List<OrderItems> list = repo.findByOrderFinalId(id);
+	public List<OrderItemsDTO> findActiveByOrderFinalId(Long id){
+		List<OrderItems> list = repo.findActiveByOrderFinalId(id);
+		List<OrderItemsDTO> listDTO = new ArrayList<OrderItemsDTO>();
+		for (OrderItems orderItems : list) {
+			OrderItemsDTO orderItemsDTO = mapper.map(orderItems, OrderItemsDTO.class);
+			listDTO.add(orderItemsDTO);
+		}
+		return listDTO;
+	}
+	
+	public List<OrderItemsDTO> findAllByOrderFinalId(Long id){
+		List<OrderItems> list = repo.findAllByOrderFinalId(id);
 		List<OrderItemsDTO> listDTO = new ArrayList<OrderItemsDTO>();
 		for (OrderItems orderItems : list) {
 			OrderItemsDTO orderItemsDTO = mapper.map(orderItems, OrderItemsDTO.class);

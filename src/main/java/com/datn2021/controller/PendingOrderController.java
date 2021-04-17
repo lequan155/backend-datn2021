@@ -1,10 +1,12 @@
 package com.datn2021.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.logging.log4j.message.Message;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,7 +62,7 @@ public class PendingOrderController {
 	@GetMapping("/listok")
 	public ResponseEntity<List<OrderItemsDTO>> getListOkItems(@PathVariable Long id){
 		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
-		List<OrderItemsDTO> list = service.findByOrderFinalId(newOrderFinal.getId());
+		List<OrderItemsDTO> list = service.findActiveByOrderFinalId(newOrderFinal.getId());
 		return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
 	}
 	
@@ -156,7 +158,7 @@ public class PendingOrderController {
 					repo.save(newOrderItems);
 				}	
 			}
-			return new ResponseEntity<>(service.findByOrderFinalId(newOrderFinal.getId()),HttpStatus.OK);
+			return new ResponseEntity<>(service.findActiveByOrderFinalId(newOrderFinal.getId()),HttpStatus.OK);
 		}
 		catch (Exception e) {
 			
@@ -194,12 +196,34 @@ public class PendingOrderController {
 					newOrderItem.setDelete(true);
 					repo.save(newOrderItem);
 				}
-				return service.findByOrderFinalId(newOrderFinal.getId());
+				return service.findActiveByOrderFinalId(newOrderFinal.getId());
 			}
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 		}
-		return service.findByOrderFinalId(newOrderFinal.getId());
+		return service.findActiveByOrderFinalId(newOrderFinal.getId());
+	}
+	
+	@PostMapping("/mergetable")
+	public ResponseEntity<String> mergeTable(@RequestBody Map<String,Long> data, @PathVariable Long id){
+		if(data != null && id != null) {
+			Long newTableId = data.get("newTableId");
+			OrderFinal oldFinal = finalRepo.findByTableId(id);
+			OrderFinal newFinal = finalRepo.findByTableId(newTableId);
+			List<OrderItems> oldItems = repo.findAllByOrderFinalId(oldFinal.getId());
+			for (int i = 0;oldItems != null && i < oldItems.size(); i++) {
+				OrderItems newItem = oldItems.get(i);
+				newItem.setOrderFinal(newFinal);
+				newItem.setNote(new StringBuilder(newItem.getNote()== null ? new String() : newItem.getNote()).append("Chuyen ban tu ban "+ id).toString());
+				repo.save(newItem);
+			}
+			oldItems = repo.findAllByOrderFinalId(oldFinal.getId());
+			if(oldItems.isEmpty()) {
+				oldFinal.setDelete(true);
+				finalRepo.save(oldFinal);
+			}
+		}
+		return new ResponseEntity<String>("Merge Done",HttpStatus.ACCEPTED);
 	}
 }

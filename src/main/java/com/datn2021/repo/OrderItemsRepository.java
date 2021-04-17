@@ -16,7 +16,10 @@ public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {
 	Long findFinalOrderId(Long id);
 	
 	@Query(value = "select i.* from order_items i left join order_final f on i.order_final_id = f.id where i.order_final_id = ?1 and i.is_delete = 0 and i.is_active = 1", nativeQuery = true)
-	List<OrderItems> findByOrderFinalId(Long id);
+	List<OrderItems> findActiveByOrderFinalId(Long id);
+	
+	@Query(value = "select i.* from order_items i left join order_final f on i.order_final_id = f.id where i.order_final_id = ?1 and i.is_delete = 0", nativeQuery = true)
+	List<OrderItems> findAllByOrderFinalId(Long id);
 	
 	@Query(value = "select i.* from order_items i where i.is_active = 1 and i.is_delete = 0 and i.menu_id = ?1 and i.order_final_id = ?2", nativeQuery = true)
 	OrderItems findByMenuId(Long id,Long fid);
