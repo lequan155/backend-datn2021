@@ -213,15 +213,28 @@ public class PendingOrderController {
 			OrderFinal newFinal = finalRepo.findByTableId(newTableId);
 			List<OrderItems> oldItems = repo.findAllByOrderFinalId(oldFinal.getId());
 			for (int i = 0;oldItems != null && i < oldItems.size(); i++) {
-				OrderItems newItem = oldItems.get(i);
-				newItem.setOrderFinal(newFinal);
-				newItem.setNote(new StringBuilder(newItem.getNote()== null ? new String() : newItem.getNote()).append("Chuyen ban tu ban "+ id).toString());
-				repo.save(newItem);
+				OrderItems mergeItem = oldItems.get(i);
+				OrderItems newItem = repo.findByMenuId(mergeItem.getItem().getId(), newFinal.getId());
+				if(newItem != null) {
+					newItem.setQty(newItem.getQty() + mergeItem.getQty());
+					newItem.setNote(new StringBuilder(newItem.getNote()== null ? new String() : newItem.getNote()).append(" / Chuyen ban tu ban "+ id + ", So luong: "+ mergeItem.getQty()).toString());
+					mergeItem.setDelete(true);
+					repo.save(mergeItem);
+					repo.save(newItem);
+				}
+				else {
+					mergeItem.setOrderFinal(newFinal);
+					mergeItem.setNote(new StringBuilder(mergeItem.getNote()== null ? new String() : mergeItem.getNote()).append(" / Chuyen ban tu ban "+ id + ", So luong: "+ mergeItem.getQty()).toString());
+					repo.save(mergeItem);
+				}
 			}
 			oldItems = repo.findAllByOrderFinalId(oldFinal.getId());
 			if(oldItems.isEmpty()) {
 				oldFinal.setDelete(true);
+				StoreTable table = tableRepo.findById(id).get();
+				table.setStatus("Pending");
 				finalRepo.save(oldFinal);
+				tableRepo.save(table);
 			}
 		}
 		return new ResponseEntity<String>("Merge Done",HttpStatus.ACCEPTED);
