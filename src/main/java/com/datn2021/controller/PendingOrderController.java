@@ -225,7 +225,7 @@ public class PendingOrderController {
 				}
 				else if(newCitem != null && mergeItem.isActive() == false) {
 					newCitem.setQty(newCitem.getQty() + mergeItem.getQty());
-					newCitem.setNote(new StringBuilder(newItem.getNote()== null ? new String() : newCitem.getNote()).append(" / Chuyen ban tu ban "+ id + ", So luong: "+ mergeItem.getQty()).toString());
+					newCitem.setNote(new StringBuilder(newCitem.getNote()== null ? new String() : newCitem.getNote()).append(" / Chuyen ban tu ban "+ id + ", So luong: "+ mergeItem.getQty()).toString());
 					mergeItem.setDelete(true);
 					repo.save(mergeItem);
 					repo.save(newCitem);
