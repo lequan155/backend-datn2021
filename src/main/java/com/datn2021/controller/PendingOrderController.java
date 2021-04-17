@@ -215,12 +215,20 @@ public class PendingOrderController {
 			for (int i = 0;oldItems != null && i < oldItems.size(); i++) {
 				OrderItems mergeItem = oldItems.get(i);
 				OrderItems newItem = repo.findByMenuId(mergeItem.getItem().getId(), newFinal.getId());
-				if(newItem != null) {
+				OrderItems newCitem = repo.findCancelItemByMenuId(mergeItem.getItem().getId(), newFinal.getId());
+				if(newItem != null && mergeItem.isActive() == true) {
 					newItem.setQty(newItem.getQty() + mergeItem.getQty());
 					newItem.setNote(new StringBuilder(newItem.getNote()== null ? new String() : newItem.getNote()).append(" / Chuyen ban tu ban "+ id + ", So luong: "+ mergeItem.getQty()).toString());
 					mergeItem.setDelete(true);
 					repo.save(mergeItem);
 					repo.save(newItem);
+				}
+				else if(newCitem != null && mergeItem.isActive() == false) {
+					newCitem.setQty(newCitem.getQty() + mergeItem.getQty());
+					newCitem.setNote(new StringBuilder(newItem.getNote()== null ? new String() : newCitem.getNote()).append(" / Chuyen ban tu ban "+ id + ", So luong: "+ mergeItem.getQty()).toString());
+					mergeItem.setDelete(true);
+					repo.save(mergeItem);
+					repo.save(newCitem);
 				}
 				else {
 					mergeItem.setOrderFinal(newFinal);
