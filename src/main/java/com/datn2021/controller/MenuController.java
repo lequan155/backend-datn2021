@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.model.Menu;
@@ -43,8 +44,30 @@ public class MenuController {
 			newMenu.setId(new Long(0));
 		}
 		return repo.save(newMenu);
-	
 	}
+	
+	@PostMapping("/deactive")
+	public void deActiveMenu(@RequestBody(required = true) List<Long> list) {
+		try {
+			if(!list.isEmpty()) {
+				for(Long id : list) {
+					Menu item = repo.findById(id).get();
+					item.setActive(false);
+					repo.save(item);
+				}
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	@PostMapping("/addnew")
+	public Menu addNewMenu(@RequestParam(value = "name", required = true) String name) {
+		name = "abcd";
+		return null;
+	}
+	
 	@GetMapping("/{id}")
 	public Menu getMenuById(@PathVariable Long id) {
 		return repo.findMenuItemById(id);

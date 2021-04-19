@@ -18,6 +18,12 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	@Query(value = "select SUM(total) as totalAmount from invoice WHERE is_delete = 0 AND create_date BETWEEN ?1 AND ?2", nativeQuery = true)
 	public BigDecimal findTotalByDateToDate(Date fromDate, Date toDate);
 	
+	@Query(value = "select SUM(total) as totalAmount from invoice WHERE is_delete = 0 AND MONTH(create_date) BETWEEN MONTH(?1) AND MONTH(?2)", nativeQuery = true)
+	public BigDecimal findTotalByMonthToMonth(Date fromDate, Date toDate);
+	
+	@Query(value = "select SUM(total) as totalAmount from invoice WHERE is_delete = 0 AND YEAR(create_date) BETWEEN YEAR(?1) AND YEAR(?2)", nativeQuery = true)
+	public BigDecimal findTotalByYearToYear(Date fromDate, Date toDate);
+	
 	@Query(value = "select SUM(total) as totalAmount from invoice WHERE is_delete = 0 AND DATE(create_date) = DATE(?1)", nativeQuery = true)
 	public BigDecimal findTotalByDate(Date date);
 	
@@ -30,6 +36,12 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND i.create_date BETWEEN ?1 AND ?2",nativeQuery = true)
 	public List<Invoice> findListInvoiceByDateToDate (Date fromDate, Date toDate);
 	
+	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND MONTH(i.create_date) BETWEEN MONTH(?1) AND MONTH(?2)",nativeQuery = true)
+	public List<Invoice> findListInvoiceByMonthToMonth (Date fromDate, Date toDate);
+	
+	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND YEAR(i.create_date) BETWEEN YEAR(?1) AND YEAR(?2)",nativeQuery = true)
+	public List<Invoice> findListInvoiceByYearToYear (Date fromDate, Date toDate);
+	
 	@Query(value = "select i.* from invoice i WHERE i.is_delete = 0 AND DATE(i.create_date) = DATE(?1)",nativeQuery = true)
 	public List<Invoice> findListInvoiceByOneDate (Date date);
 	
@@ -41,6 +53,12 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	
 	@Query(value = "select COUNT(i.id) as CountInvoice from invoice i WHERE i.is_delete = 0 AND i.create_date BETWEEN ?1 AND ?2",nativeQuery = true)
 	public Long countInvoiceByDateToDate(Date fromDate, Date toDate);
+
+	@Query(value = "select COUNT(i.id) as CountInvoice from invoice i WHERE i.is_delete = 0 AND MONTH(i.create_date) BETWEEN MONTH(?1) AND MONTH(?2)",nativeQuery = true)
+	public Long countInvoiceByMonthToMonth(Date fromDate, Date toDate);
+	
+	@Query(value = "select COUNT(i.id) as CountInvoice from invoice i WHERE i.is_delete = 0 AND YEAR(i.create_date) BETWEEN YEAR(?1) AND YEAR(?2)",nativeQuery = true)
+	public Long countInvoiceByYearToYear(Date fromDate, Date toDate);
 	
 	@Query(value = "select COUNT(i.id) as CountInvoice from invoice i WHERE i.is_delete = 0 AND DATE(i.create_date) = DATE(?1)",nativeQuery = true)
 	public Long countInvoiceByDate(Date date);

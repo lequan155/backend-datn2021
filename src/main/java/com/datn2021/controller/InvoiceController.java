@@ -85,6 +85,28 @@ public class InvoiceController {
 		return new ResponseEntity<>(total,HttpStatus.OK);
 	}
 	
+	@PostMapping("/totalbymonthtomonth")
+	public ResponseEntity<BigDecimal> totalInvoiceByMonthToMonth(@RequestBody Map<String, Date> dataInvoice){
+		BigDecimal total = new BigDecimal(0);
+		if(dataInvoice != null && !dataInvoice.isEmpty()) {
+			Date fromDate = dataInvoice.get("fromDate");
+			Date toDate = dataInvoice.get("toDate");
+			total = repo.findTotalByMonthToMonth(fromDate, toDate);
+		}
+		return new ResponseEntity<>(total,HttpStatus.OK);
+	}
+	
+	@PostMapping("/totalbyyeartoyear")
+	public ResponseEntity<BigDecimal> totalInvoiceByYearToYear(@RequestBody Map<String, Date> dataInvoice){
+		BigDecimal total = new BigDecimal(0);
+		if(dataInvoice != null && !dataInvoice.isEmpty()) {
+			Date fromDate = dataInvoice.get("fromDate");
+			Date toDate = dataInvoice.get("toDate");
+			total = repo.findTotalByYearToYear(fromDate, toDate);
+		}
+		return new ResponseEntity<>(total,HttpStatus.OK);
+	}
+	
 	@PostMapping("/totalbydate")
 	public ResponseEntity<BigDecimal> totalInvoiceByDate(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
@@ -126,6 +148,28 @@ public class InvoiceController {
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 	
+	@PostMapping("/listbymonthtomonth")
+	public ResponseEntity<List<Invoice>> ListInvoiceByMonthToMonth(@RequestBody Map<String, Date> dataInvoice){
+		List<Invoice> list = new ArrayList<>();
+		if(dataInvoice != null && !dataInvoice.isEmpty()) {
+			Date fromDate = dataInvoice.get("fromDate");
+			Date toDate = dataInvoice.get("toDate");
+			list = repo.findListInvoiceByMonthToMonth(fromDate, toDate);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	@PostMapping("/listbyyeartoyear")
+	public ResponseEntity<List<Invoice>> ListInvoiceByYearToYear(@RequestBody Map<String, Date> dataInvoice){
+		List<Invoice> list = new ArrayList<>();
+		if(dataInvoice != null && !dataInvoice.isEmpty()) {
+			Date fromDate = dataInvoice.get("fromDate");
+			Date toDate = dataInvoice.get("toDate");
+			list = repo.findListInvoiceByYearToYear(fromDate, toDate);
+		}
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
 	@PostMapping("/listbyonedate")
 	public ResponseEntity<List<Invoice>> ListInvoiceByOneDate(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
@@ -163,6 +207,28 @@ public class InvoiceController {
 			Date fromDate = dataInvoice.get("fromDate");
 			Date toDate = dataInvoice.get("toDate");
 			count = repo.countInvoiceByDateToDate(fromDate, toDate);
+		}
+		return new ResponseEntity<Long>(count,HttpStatus.OK);
+	}
+	
+	@PostMapping("/countbymonthtomonth")
+	public ResponseEntity<Long> CountInvoiceByMonthToMonth(@RequestBody Map<String, Date> dataInvoice){
+		Long count = new Long(0);
+		if(dataInvoice != null && !dataInvoice.isEmpty()) {
+			Date fromDate = dataInvoice.get("fromDate");
+			Date toDate = dataInvoice.get("toDate");
+			count = repo.countInvoiceByMonthToMonth(fromDate, toDate);
+		}
+		return new ResponseEntity<Long>(count,HttpStatus.OK);
+	}
+	
+	@PostMapping("/countbyyeartoyear")
+	public ResponseEntity<Long> CountInvoiceByYearToYear(@RequestBody Map<String, Date> dataInvoice){
+		Long count = new Long(0);
+		if(dataInvoice != null && !dataInvoice.isEmpty()) {
+			Date fromDate = dataInvoice.get("fromDate");
+			Date toDate = dataInvoice.get("toDate");
+			count = repo.countInvoiceByYearToYear(fromDate, toDate);
 		}
 		return new ResponseEntity<Long>(count,HttpStatus.OK);
 	}
