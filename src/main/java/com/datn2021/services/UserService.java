@@ -13,8 +13,8 @@ import com.datn2021.repo.UserRepository;
 public class UserService {
 	@Autowired  ModelMapper mapper;
 	@Autowired UserRepository repo;
-	public UserDTO getUserDTO (String username) {
-		User user = repo.findByUserName(username);
+	public UserDTO getUserDTO (String username, String password) {
+		User user = repo.findByUserName(username, password);
 		UserDTO userDTO = mapper.map(user, UserDTO.class);
 		
 		return userDTO;

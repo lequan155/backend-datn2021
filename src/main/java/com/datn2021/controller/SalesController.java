@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.model.Sales;
+import com.datn2021.model.StoreTable;
 import com.datn2021.repo.SalesRepository;
 
 @RestController
@@ -26,6 +27,10 @@ public class SalesController {
 	@GetMapping("")
 	public List<Sales> getListSales(){
 		return repo.findAll();
+	}
+	@GetMapping("/list-sale-active")
+	public List<Sales> getListSalesActive(){
+		return repo.findListSalesActive();
 	}
 	@GetMapping("/{id}")
 	public Optional<Sales> getSalesById(@PathVariable Long id) {
@@ -39,7 +44,24 @@ public class SalesController {
 		}
 		return repo.save(newSales);
 	
-	}@PutMapping("/{id}")
+	}
+	@PostMapping("/deactive")
+	public void deActiveTable(@RequestBody(required = true) List<Long> list) {
+		try {
+			if(!list.isEmpty()) {
+				for(Long id : list) {
+					Sales item = repo.findById(id).get();
+					item.setActive(false);;
+					repo.save(item);
+				}
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	@PutMapping("/{id}")
 	public Sales updateSales(@RequestBody Sales newSales, @PathVariable Long id){
 		return repo.findById(id).map(
 				Sales -> {
@@ -47,6 +69,7 @@ public class SalesController {
 					Sales.setSalesName(newSales.getSalesName());
 					Sales.setDiscountAmount(newSales.getDiscountAmount());
 					Sales.setDescription(newSales.getDescription());
+					Sales.setActive(newSales.isActive());
 					return repo.save(Sales);
 				}).orElseGet(()->{
 					newSales.setId(id);

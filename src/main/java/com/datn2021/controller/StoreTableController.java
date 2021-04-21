@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.datn2021.model.Menu;
 import com.datn2021.model.StoreTable;
 import com.datn2021.repo.StoreTableRepository;
 
@@ -31,6 +32,22 @@ public class StoreTableController {
 	@GetMapping("/index/{limit}")
 	public List<StoreTable> getListTable(@PathVariable int limit){
 		return repo.findAll(limit);
+	}
+	
+	@PostMapping("/deactive")
+	public void deActiveTable(@RequestBody(required = true) List<Long> list) {
+		try {
+			if(!list.isEmpty()) {
+				for(Long id : list) {
+					StoreTable item = repo.findById(id).get();
+					item.setActive(false);
+					repo.save(item);
+				}
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 	
 	@GetMapping("/{id}")
@@ -52,6 +69,7 @@ public class StoreTableController {
 //					storeTable.setId(newTable.getId());
 					storeTable.setTableName(newTable.getTableName());
 					storeTable.setStatus(newTable.getStatus());
+					storeTable.setActive(newTable.isActive());
 					return repo.save(storeTable);
 				}).orElseGet(()->{
 					newTable.setId(id);

@@ -3,6 +3,7 @@ package com.datn2021.repo;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.datn2021.model.Invoice;
 import com.datn2021.model.Menu;
 import com.datn2021.model.OrderItems;
+import com.datn2021.model.Sales;
 
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	@Query(value = "select * from invoice where oder_final_id = ?1",nativeQuery = true) 
@@ -68,5 +70,8 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	
 	@Query(value = "select COUNT(i.id) as CountInvoice from invoice i WHERE i.is_delete = 0 AND YEAR(i.create_date) = YEAR(?1)",nativeQuery = true)
 	public Long countInvoiceByYear(Date date);
+	
+	@Query(value = "select * from invoice where oder_final_id= ?1", nativeQuery = true)
+	public Optional<Invoice> findInvoiceWithOrderFinalId(Long id);
 	
 }

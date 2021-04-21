@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import com.datn2021.model.Invoice;
 import com.datn2021.model.Menu;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.OrderItems;
+import com.datn2021.model.Sales;
 import com.datn2021.model.StoreTable;
 import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.InvoiceRepository;
@@ -48,6 +50,14 @@ public class InvoiceController {
 	@GetMapping("")
 	public List<Invoice> getListInvoice(){
 		return repo.findAll();
+	}
+//	@GetMapping("/{id}")
+//	public Optional<Invoice> getInvoiceById(@PathVariable Long id) {
+//		return repo.findById(id);
+//	}
+	@GetMapping("/{id}")
+	public Optional<Invoice> getInvoiceByOrderFinalId(@PathVariable Long id){
+		return repo.findInvoiceWithOrderFinalId(id);
 	}
 	
 	@PostMapping("")

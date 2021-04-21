@@ -18,6 +18,7 @@ public class Sales {
 	private BigDecimal discountAmount;
 	private boolean isDelete;
 	private String description;
+	private boolean isActive;
 	
 	public Long getId() {
 		return id;
@@ -50,5 +51,10 @@ public class Sales {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 }
