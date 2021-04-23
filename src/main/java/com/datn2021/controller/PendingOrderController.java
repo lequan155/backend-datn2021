@@ -55,15 +55,21 @@ public class PendingOrderController {
 	@GetMapping("/listcancel")
 	public ResponseEntity<List<OrderItemsDTO>> getListCancelItems(@PathVariable Long id){
 		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
-		List<OrderItemsDTO> list = service.listCancelItemsByOrderFinalId(newOrderFinal.getId());
-		return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
+		if(newOrderFinal != null) {
+			List<OrderItemsDTO> list = service.listCancelItemsByOrderFinalId(newOrderFinal.getId());
+			return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
+		}
+		return null;
 	}
 	
 	@GetMapping("/listok")
 	public ResponseEntity<List<OrderItemsDTO>> getListOkItems(@PathVariable Long id){
 		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
-		List<OrderItemsDTO> list = service.findActiveByOrderFinalId(newOrderFinal.getId());
-		return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
+		if(newOrderFinal != null) {
+			List<OrderItemsDTO> list = service.findActiveByOrderFinalId(newOrderFinal.getId());
+			return new ResponseEntity<List<OrderItemsDTO>>(list,HttpStatus.OK);
+		}
+		return null;
 	}
 	
 	@PostMapping("/addcustomer")
