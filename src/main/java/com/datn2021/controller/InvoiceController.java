@@ -70,6 +70,7 @@ public class InvoiceController {
 		if(null != dataInvoice.get("sale_id")) {
 			newInvoice.setSale(saleRepo.findById(Long.parseLong(dataInvoice.get("sale_id"))).get());
 		}
+		newInvoice.setTotalSale(BigDecimal.valueOf(Double.parseDouble(dataInvoice.get("total_sale"))));
 		newInvoice.setCreateDate(new Date());
 		
 		OrderFinal of = finalRepo.findById(newInvoice.getOderFinal().getId()).get();
@@ -79,6 +80,9 @@ public class InvoiceController {
 			tableRepo.save(table);
 		}
 		of.setDelete(true);
+		of.setSale(newInvoice.getSale());
+		of.setTotal(newInvoice.getTotal());
+		of.setInvoice(newInvoice);
 		finalRepo.save(of);
 		
 		return new ResponseEntity<>(repo.save(newInvoice),HttpStatus.OK);

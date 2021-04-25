@@ -26,6 +26,7 @@ public class Invoice {
 	private BigDecimal total;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Sales sale;
+	private BigDecimal totalSale;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="customer_id",referencedColumnName = "id")
 	private Customer customer;
@@ -73,6 +74,12 @@ public class Invoice {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public BigDecimal getTotalSale() {
+		return totalSale;
+	}
+	public void setTotalSale(BigDecimal totalSale) {
+		this.totalSale = totalSale;
 	}
 	
 	
