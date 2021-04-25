@@ -85,7 +85,7 @@ public class InvoiceController {
 		of.setInvoice(newInvoice);
 		finalRepo.save(of);
 		
-		return new ResponseEntity<>(repo.save(newInvoice),HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping("/totalbydatetodate")
