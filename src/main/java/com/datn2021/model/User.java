@@ -20,6 +20,7 @@ public class User {
 	private String userName;
 	@Column(nullable = false)
 	private String passWord;
+	private String fullName;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="role_id", referencedColumnName = "id")
 	private Role role;
@@ -75,6 +76,12 @@ public class User {
 	}
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	
 }

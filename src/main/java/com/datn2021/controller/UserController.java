@@ -51,6 +51,7 @@ public class UserController {
 		return repo.findById(id).map(
 				User -> {
 //					User.setId(newSales.getId());
+					User.setFullName(newUser.getFullName());
 					User.setUserName(newUser.getUserName());
 					User.setPassWord(newUser.getPassWord());
 					User.setPhoneNo(newUser.getPhoneNo());
@@ -73,6 +74,6 @@ public class UserController {
 //		}
 		String username = userdata.get("username");
 		String password = userdata.get("password");
-		return repo.findByUserName(username, password);
+		return repo.findByUserNameAndPassWord(username, password);
 	}
 }
