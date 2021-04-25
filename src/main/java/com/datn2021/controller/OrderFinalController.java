@@ -42,7 +42,20 @@ public class OrderFinalController {
 	
 	@GetMapping("/findCustomer/{id}")
 	public Customer getCustomerByFinalId(@PathVariable Long id) {
-		Customer cus = customerRepo.findCustomerByOrderFinal(id);
+		if(id!=null) {
+			Customer cus = customerRepo.findCustomerByOrderFinal(id);
+			return cus;
+		}
+		return null;
+	}
+	@GetMapping("/findOrderFinal/{id}")
+	public OrderFinal getOrderFinalByTableId(@PathVariable Long id) {
+		OrderFinal orderFinal = repo.findByTableId(id);
+		return orderFinal;
+	}
+	@GetMapping("/findCustomerTable/{id}")
+	public Customer getCustomerByTableId(@PathVariable Long id) {
+		Customer cus = customerRepo.findCustomerByTableId(id);
 		return cus;
 	}
 	
