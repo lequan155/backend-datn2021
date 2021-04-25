@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +45,23 @@ public class UserController {
 		}
 		return repo.save(newUser);
 	
+	}
+	@PutMapping("/{id}")
+	public User updateUser(@RequestBody User newUser, @PathVariable Long id){
+		return repo.findById(id).map(
+				User -> {
+//					User.setId(newSales.getId());
+					User.setUserName(newUser.getUserName());
+					User.setPassWord(newUser.getPassWord());
+					User.setPhoneNo(newUser.getPhoneNo());
+					User.setActive(newUser.isActive());
+					User.setEmail(newUser.getEmail());
+					User.setRole(newUser.getRole());
+					return repo.save(User);
+				}).orElseGet(()->{
+					newUser.setId(id);
+					return repo.save(newUser);
+				});
 	}
 	
 	@PostMapping("/getUser")
