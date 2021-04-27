@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +25,9 @@ import com.datn2021.model.*;
 import com.datn2021.repo.*;
 
 @Controller
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/api/file")
 public class FileController {
 	@Autowired
 	FilesStorageService storageService;

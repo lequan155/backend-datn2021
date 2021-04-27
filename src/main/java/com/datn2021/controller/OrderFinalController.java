@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.config.RepositoryBeanDefinitionParser;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class OrderFinalController {
 @Autowired private OrderItemsService itemService;
 @Autowired private CustomerRepository customerRepo;
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<OrderItemsDTO> getListOrderFinal(@PathVariable Long id){
 		OrderFinal orderFinal = repo.findById(id).get();
 		List<OrderItemsDTO> listFinalItems = itemService.findActiveByOrderFinalId(id);
@@ -41,6 +43,7 @@ public class OrderFinalController {
 	}
 	
 	@GetMapping("/findCustomer/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public Customer getCustomerByFinalId(@PathVariable Long id) {
 		if(id!=null) {
 			Customer cus = customerRepo.findCustomerByOrderFinal(id);
@@ -49,24 +52,29 @@ public class OrderFinalController {
 		return null;
 	}
 	@GetMapping("/findOrderFinal/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public OrderFinal getOrderFinalByTableId(@PathVariable Long id) {
 		OrderFinal orderFinal = repo.findByTableId(id);
 		return orderFinal;
 	}
 	@GetMapping("/findCustomerTable/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public Customer getCustomerByTableId(@PathVariable Long id) {
 		Customer cus = customerRepo.findCustomerByTableId(id);
 		return cus;
 	}
 	
 	@PostMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public OrderFinal createOrderFinal(@RequestBody OrderFinal newOrderFinal){
 		if(newOrderFinal.getId()==null) {
 			newOrderFinal.setId(new Long(0));
 		}
 		return repo.save(newOrderFinal);
 	
-	}@PutMapping("/{id}")
+	}
+	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public OrderFinal updateOrderFinal(@RequestBody OrderFinal newOrderFinal, @PathVariable Long id){
 		return repo.findById(id).map(
 				OrderFinal -> {
@@ -78,6 +86,7 @@ public class OrderFinalController {
 				});
 	}
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public void deleteOrderFinal(@PathVariable Long id){
 		Optional<OrderFinal> opt = repo.findById(id);
 		OrderFinal newOrderFinal = new OrderFinal();

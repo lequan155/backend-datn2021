@@ -3,6 +3,7 @@ package com.datn2021.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +26,19 @@ public class StoreTableController {
 	@Autowired private StoreTableRepository repo;
 	
 	@GetMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<StoreTable> getListTableCrud(){
 		return repo.findAll();
 	}
 	
 	@GetMapping("/index/{limit}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<StoreTable> getListTable(@PathVariable int limit){
 		return repo.findAll(limit);
 	}
 	
 	@PostMapping("/deactive")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deActiveTable(@RequestBody(required = true) List<Long> list) {
 		try {
 			if(!list.isEmpty()) {
@@ -51,11 +55,13 @@ public class StoreTableController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable getTable(@PathVariable Long id) {
 		return repo.findById(id).orElseThrow(()->new StoreTableNotFoundException(id));
 	}
 	
 	@PostMapping("")
+	@PreAuthorize("hasRole('ADMIN')")
 	public StoreTable createTable(@RequestBody StoreTable newTable){
 		if(newTable.getId()==null) {
 			newTable.setId(new Long(0));
@@ -63,6 +69,7 @@ public class StoreTableController {
 		return repo.save(newTable);
 	
 	}@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public StoreTable updateTable(@RequestBody StoreTable newTable, @PathVariable Long id){
 		return repo.findById(id).map(
 				storeTable -> {
@@ -78,6 +85,7 @@ public class StoreTableController {
 	}
 	
 	@PutMapping("/updateStatusBusy/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable updateStatusTable(@RequestBody StoreTable newTable, @PathVariable Long id) {
 		return repo.findById(id).map(
 				storeTable -> {
@@ -89,6 +97,7 @@ public class StoreTableController {
 				});
 	}
 	@PutMapping("/updateStatusPending/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable updateStatusBusy(@RequestBody StoreTable newTable, @PathVariable Long id) {
 		return repo.findById(id).map(
 				storeTable -> {
@@ -100,6 +109,7 @@ public class StoreTableController {
 				});
 	}
 	@PutMapping("/updateStatusReady/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable updateStatusReady(@RequestBody StoreTable newTable, @PathVariable Long id) {
 		
 		return repo.findById(id).map(
@@ -113,6 +123,7 @@ public class StoreTableController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public void deleteTable(@PathVariable Long id){
 		StoreTable newStoreTable = repo.findById(id).get();
 		newStoreTable.setDelete(true);

@@ -2,7 +2,10 @@ package com.datn2021.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,15 +18,23 @@ import lombok.Data;
 @Entity
 @Data
 public class Role {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String roleName;
-	private boolean isDelete;
 	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return roleName;
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private ERole name;
+	
+//	@Override
+//	public String toString() {
+//		// TODO Auto-generated method stub
+//		return roleName;
+//	}
+	public Role() {
+		
+	}
+	public Role(ERole name) {
+		this.name = name;
 	}
 
 	public Long getId() {
@@ -33,20 +44,12 @@ public class Role {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getRoleName() {
-		return roleName;
+	
+	public ERole getName() {
+		return name;
 	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setName(ERole name) {
+		this.name = name;
 	}
-
-	public boolean isDelete() {
-		return isDelete;
-	}
-
-	public void setDelete(boolean isDelete) {
-		this.isDelete = isDelete;
-	}
-
 	
 }

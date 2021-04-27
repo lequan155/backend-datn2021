@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,7 @@ public class InvoiceController {
 @Autowired private StoreTableRepository tableRepo;
 	
 	@GetMapping("")
+	@PreAuthorize("hasRole('ADMIN')")
 	public List<Invoice> getListInvoice(){
 		return repo.findAll();
 	}
@@ -56,11 +58,13 @@ public class InvoiceController {
 //		return repo.findById(id);
 //	}
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public Optional<Invoice> getInvoiceByOrderFinalId(@PathVariable Long id){
 		return repo.findInvoiceWithOrderFinalId(id);
 	}
 	
 	@PostMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<Invoice> createInvoice(@RequestBody Map<String, String> dataInvoice){
 		Invoice newInvoice = new Invoice();
 		Long tbid = new Long(999);
@@ -89,6 +93,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/totalbydatetodate")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BigDecimal> totalInvoiceByDateToDate(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -100,6 +105,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/totalbymonthtomonth")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BigDecimal> totalInvoiceByMonthToMonth(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -111,6 +117,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/totalbyyeartoyear")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BigDecimal> totalInvoiceByYearToYear(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -122,6 +129,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/totalbydate")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BigDecimal> totalInvoiceByDate(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -132,6 +140,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/totalbymonth")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BigDecimal> totalInvoiceByMonth(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -142,6 +151,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/totalbyyear")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BigDecimal> totalInvoiceByYear(@RequestBody Map<String, Date> dataInvoice){
 		BigDecimal total = new BigDecimal(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -152,6 +162,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbydate")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Invoice>> ListInvoiceByDate(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -163,6 +174,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbymonthtomonth")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Invoice>> ListInvoiceByMonthToMonth(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -174,6 +186,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbyyeartoyear")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Invoice>> ListInvoiceByYearToYear(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -185,6 +198,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbyonedate")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Invoice>> ListInvoiceByOneDate(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -195,6 +209,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbyonemonth")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Invoice>> ListInvoiceByOneMonth(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -205,6 +220,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/listbyoneyear")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Invoice>> ListInvoiceByOneYear(@RequestBody Map<String, Date> dataInvoice){
 		List<Invoice> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -215,6 +231,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/countbydatetodate")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> CountInvoiceByDateToDate(@RequestBody Map<String, Date> dataInvoice){
 		Long count = new Long(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -226,6 +243,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/countbymonthtomonth")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> CountInvoiceByMonthToMonth(@RequestBody Map<String, Date> dataInvoice){
 		Long count = new Long(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -237,6 +255,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/countbyyeartoyear")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> CountInvoiceByYearToYear(@RequestBody Map<String, Date> dataInvoice){
 		Long count = new Long(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -248,6 +267,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/countbydate")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> CountInvoiceByDate(@RequestBody Map<String, Date> dataInvoice){
 		Long count = new Long(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -258,6 +278,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/countbymonth")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> CountInvoiceByMonth(@RequestBody Map<String, Date> dataInvoice){
 		Long count = new Long(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -268,6 +289,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/countbyyear")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Long> CountInvoiceByYear(@RequestBody Map<String, Date> dataInvoice){
 		Long count = new Long(0);
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -278,6 +300,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/detailinvoice")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<OrderItems>> findDetailInvoiceById(@RequestBody Map<String, Long> dataInvoice){
 		List<OrderItems> list = new ArrayList<>();
 		if(dataInvoice != null && !dataInvoice.isEmpty()) {
@@ -288,12 +311,14 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/bestseller")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Menu> getBestSellMenu(){
 		Menu menu = menuRepo.getBestSeller();
 		return new ResponseEntity<Menu>(menu,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteInvoice(@PathVariable Long id){
 		Invoice invoice = repo.findById(id).get();
 		invoice.setDelete(true);

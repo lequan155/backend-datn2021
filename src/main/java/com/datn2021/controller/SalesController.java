@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,19 +26,23 @@ public class SalesController {
 @Autowired private SalesRepository repo;
 	
 	@GetMapping("")
+	@PreAuthorize("hasRole('STAFF') or hasRole('ADMIN')")
 	public List<Sales> getListSales(){
 		return repo.findAll();
 	}
 	@GetMapping("/list-sale-active")
+	@PreAuthorize("hasRole('STAFF') or hasRole('ADMIN')")
 	public List<Sales> getListSalesActive(){
 		return repo.findListSalesActive();
 	}
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('STAFF') or hasRole('ADMIN')")
 	public Optional<Sales> getSalesById(@PathVariable Long id) {
 		return repo.findById(id);
 	}
 	
 	@PostMapping("")
+	@PreAuthorize("hasRole('ADMIN')")
 	public Sales createSales(@RequestBody Sales newSales){
 		if(newSales.getId()==null) {
 			newSales.setId(new Long(0));
@@ -46,6 +51,7 @@ public class SalesController {
 	
 	}
 	@PostMapping("/deactive")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deActiveTable(@RequestBody(required = true) List<Long> list) {
 		try {
 			if(!list.isEmpty()) {
@@ -62,6 +68,7 @@ public class SalesController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public Sales updateSales(@RequestBody Sales newSales, @PathVariable Long id){
 		return repo.findById(id).map(
 				Sales -> {
@@ -77,6 +84,7 @@ public class SalesController {
 				});
 	}
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteSales(@PathVariable Long id){
 		repo.deleteById(id);;
 	}

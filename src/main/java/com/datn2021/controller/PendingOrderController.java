@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class PendingOrderController {
 @Autowired private OrderItemsService service;
 
 	@GetMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<List<OrderItemsDTO>> getListPendingOrder(@PathVariable Long id){
 		StoreTable table = tableRepo.findById(id).get();
 		List<OrderItemsDTO> list = service.findByTableId(id);
@@ -53,6 +55,7 @@ public class PendingOrderController {
 }
 	
 	@GetMapping("/listcancel")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<List<OrderItemsDTO>> getListCancelItems(@PathVariable Long id){
 		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
 		if(newOrderFinal != null) {
@@ -63,6 +66,7 @@ public class PendingOrderController {
 	}
 	
 	@GetMapping("/listok")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<List<OrderItemsDTO>> getListOkItems(@PathVariable Long id){
 		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
 		if(newOrderFinal != null) {
@@ -73,6 +77,7 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("/addcustomer")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public Customer addCustomer(@RequestBody Customer customer, @PathVariable Long id) {
 		OrderFinal of = finalRepo.findByTableId(id);
 		Customer cus = new Customer();
@@ -98,6 +103,7 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public OrderItems createPendingOrder(@RequestBody OrderItems newPendingOrder){
 		if(newPendingOrder.getId()==null) {
 			newPendingOrder.setId(new Long(0));
@@ -105,6 +111,7 @@ public class PendingOrderController {
 		return repo.save(newPendingOrder);
 	}
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public OrderItems updatePendingOrder(@PathVariable Long id){
 		Optional<OrderItems> opt = repo.findById(id);
 		OrderItems newPendingOrder = new OrderItems();
@@ -116,6 +123,7 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("/{id}/addNote")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public OrderItems updateNotePendingOrder(@RequestBody OrderItems newPendingOrder,@PathVariable Long id) {
 		return repo.findById(id).map(
 				pendingorder -> {
@@ -128,6 +136,7 @@ public class PendingOrderController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public void deletePendingOrder(@PathVariable Long id){
 		Optional<OrderItems> opt = repo.findById(id);
 		OrderItems newPendingOrder = new OrderItems();
@@ -139,6 +148,7 @@ public class PendingOrderController {
 	}
 
 	@PostMapping("/additem")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<List<OrderItemsDTO>> addMenuItem (@RequestBody List<Map> map,@PathVariable Long id){
 		try {
 			String itemId = null;
@@ -173,6 +183,7 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("/cancelitem")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<OrderItemsDTO> cancelMenuItem (@RequestBody Map<String,Long> citem,@PathVariable Long id){
 		OrderFinal newOrderFinal = finalRepo.findByTableId(id);
 		Long fid = newOrderFinal.getId();
@@ -212,6 +223,7 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("/mergetable")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<String> mergeTable(@RequestBody Map<String,Long> data, @PathVariable Long id){
 		if(data != null && id != null) {
 			Long newTableId = data.get("newTableId");

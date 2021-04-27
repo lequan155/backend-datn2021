@@ -11,6 +11,12 @@ import com.datn2021.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "select * from User where user_name = ?1 and pass_word = ?2",nativeQuery = true) 
 	public User findByUserNameAndPassWord(String userName, String password);
+//	
+//	User findByUserName(String userName);
 	
-	User findByUserName(String userName);
+	Optional<User> findByUserName(String username);
+	
+	Boolean existsByUserName(String username);
+	
+	Boolean existsByEmail(String email);
 }
