@@ -19,20 +19,25 @@ import com.datn2021.model.Menu;
 import com.datn2021.repo.MenuRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 
 @RequestMapping("/menu")
 public class MenuController {
 @Autowired private MenuRepository repo;
 	
 	@GetMapping("")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<Menu> getListMenu(){
 		return repo.findAll();
 	}
 	
+	@GetMapping("/menu-active")
+	public List<Menu> getListMenuActive(){
+		return repo.getListMenuActive();
+	}
+	
 	@GetMapping("/types/{id}")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<Menu> showListMenuByTypes(@PathVariable Long id){
 		return repo.showMenu(id);
 	}
@@ -77,7 +82,7 @@ public class MenuController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public Menu getMenuById(@PathVariable Long id) {
 		return repo.findMenuItemById(id);
 	}

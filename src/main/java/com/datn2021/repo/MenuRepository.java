@@ -16,6 +16,9 @@ public interface MenuRepository extends JpaRepository<Menu, Long>{
 	
 	@Query(value="select m.* from menu m where m.types_id =?1 and is_active = 1", nativeQuery = true)
 	public List<Menu> showMenu(Long type);
+	
+	@Query(value="select m.* from menu m where is_active = 1", nativeQuery = true)
+	public List<Menu> getListMenuActive();
 
 	@Query(value = "SELECT m.*,"
 			+ "(SELECT COUNT(menu_id) FROM order_items o WHERE o.menu_id = m.id AND o.is_active = 1 and o.is_delete = 0) as totalcount, "
