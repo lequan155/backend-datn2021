@@ -8,6 +8,7 @@ import com.datn2021.model.Invoice;
 import com.datn2021.model.OrderItems;
 import com.datn2021.model.Sales;
 import com.datn2021.model.StoreTable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,8 @@ public class OrderFinalDTO {
 	private Customer customer;
 	private StoreTable storeTable;
 	private Invoice invoice;
-	private List<OrderItems> listOrderItems;
+	@JsonIgnoreProperties("orderFinal")
+	private List<OrderItemsDTO> listOrderItems;
 	private Sales sale;
 	private BigDecimal total;
 	private boolean isDelete;
@@ -47,10 +49,10 @@ public class OrderFinalDTO {
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
-	public List<OrderItems> getListOrderItems() {
+	public List<OrderItemsDTO> getListOrderItems() {
 		return listOrderItems;
 	}
-	public void setListOrderItems(List<OrderItems> listOrderItems) {
+	public void setListOrderItems(List<OrderItemsDTO> listOrderItems) {
 		this.listOrderItems = listOrderItems;
 	}
 	public Sales getSale() {

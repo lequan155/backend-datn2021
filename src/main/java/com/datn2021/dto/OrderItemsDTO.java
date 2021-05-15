@@ -3,6 +3,7 @@ package com.datn2021.dto;
 
 import com.datn2021.model.Menu;
 import com.datn2021.model.OrderFinal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,8 @@ public class OrderItemsDTO {
 //	private boolean status = false;
 	private String note;
 	private int qty;
-	private OrderFinal orderFinal;
+	@JsonIgnoreProperties("listOrderItems")
+	private OrderFinalDTO orderFinal;
 	private boolean isActive;
 	private boolean isDelete;
 	public Long getId() {
@@ -42,10 +44,10 @@ public class OrderItemsDTO {
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
-	public OrderFinal getOrderFinal() {
+	public OrderFinalDTO getOrderFinal() {
 		return orderFinal;
 	}
-	public void setOrderFinal(OrderFinal orderFinal) {
+	public void setOrderFinal(OrderFinalDTO orderFinal) {
 		this.orderFinal = orderFinal;
 	}
 	public boolean isDelete() {
