@@ -1,8 +1,11 @@
 package com.datn2021.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -67,8 +70,30 @@ public class StoreTableController {
 			newTable.setId(new Long(0));
 		}
 		return repo.save(newTable);
+	}
 	
-	}@PutMapping("/{id}")
+	@GetMapping("/{id}/gettoken")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+	public ResponseEntity<String> getTableToken(@PathVariable Long id) {
+		StoreTable table =  repo.findById(id).orElseThrow(()->new StoreTableNotFoundException(id));
+		String token = table.getExpoToken();
+		return new ResponseEntity<>(token,HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/updatetoken")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+	public ResponseEntity<StoreTable> updateTableToken(@RequestBody Map<String, String> map, @PathVariable Long id) {
+		StoreTable newTable = repo.findById(id).get();
+		String token = map.get("expoToken");
+		if(newTable != null && token != null) {
+			newTable.setExpoToken(token);
+			repo.save(newTable);
+		}
+		return new ResponseEntity<>(newTable,HttpStatus.OK);
+	}
+	
+	
+	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public StoreTable updateTable(@RequestBody StoreTable newTable, @PathVariable Long id){
 		return repo.findById(id).map(
