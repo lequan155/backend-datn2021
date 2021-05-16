@@ -5,9 +5,11 @@ import java.util.Date;
 import com.datn2021.model.Customer;
 import com.datn2021.model.OrderFinal;
 import com.datn2021.model.Sales;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class InvoiceDTO {
 	private Long id;
+	@JsonIgnoreProperties("listOrderItems")
 	private OrderFinal oderFinal;
 	private Long total;
 	private Sales sale;

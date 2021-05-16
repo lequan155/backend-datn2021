@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datn2021.dto.CustomerDTO;
+import com.datn2021.dto.OrderFinalDTO;
 import com.datn2021.dto.OrderItemsDTO;
 import com.datn2021.model.Customer;
 import com.datn2021.model.OrderFinal;
@@ -24,6 +25,7 @@ import com.datn2021.model.OrderItems;
 import com.datn2021.repo.CustomerRepository;
 import com.datn2021.repo.OrderFinalRepository;
 import com.datn2021.repo.OrderItemsRepository;
+import com.datn2021.services.OrderFinalService;
 import com.datn2021.services.OrderItemsService;
 
 @RestController
@@ -32,8 +34,10 @@ import com.datn2021.services.OrderItemsService;
 public class OrderFinalController {
 @Autowired private OrderFinalRepository repo;
 @Autowired private OrderItemsRepository pendingrepo;
-@Autowired private OrderItemsService itemService;
 @Autowired private CustomerRepository customerRepo;
+@Autowired private OrderItemsService itemService;
+@Autowired private OrderFinalService finalService;
+
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<OrderItemsDTO> getListOrderFinal(@PathVariable Long id){
@@ -44,23 +48,25 @@ public class OrderFinalController {
 	
 	@GetMapping("/findCustomer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-	public Customer getCustomerByFinalId(@PathVariable Long id) {
+	public CustomerDTO getCustomerByFinalId(@PathVariable Long id) {
 		if(id!=null) {
-			Customer cus = customerRepo.findCustomerByOrderFinal(id);
+			CustomerDTO cus = finalService.getCustomerByFinalId(id);
 			return cus;
 		}
 		return null;
 	}
+	
 	@GetMapping("/findOrderFinal/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-	public OrderFinal getOrderFinalByTableId(@PathVariable Long id) {
-		OrderFinal orderFinal = repo.findByTableId(id);
+	public OrderFinalDTO getOrderFinalByTableId(@PathVariable Long id) {
+		OrderFinalDTO orderFinal = finalService.getOrderFinalByTableId(id);
 		return orderFinal;
 	}
+	
 	@GetMapping("/findCustomerTable/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-	public Customer getCustomerByTableId(@PathVariable Long id) {
-		Customer cus = customerRepo.findCustomerByTableId(id);
+	public CustomerDTO getCustomerByTableId(@PathVariable Long id) {
+		CustomerDTO cus = finalService.getCustomerByTableId(id);
 		return cus;
 	}
 	
