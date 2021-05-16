@@ -23,7 +23,7 @@ public class EmitterService {
 	}
 	
 	public void pushNotification(String username, String name, String message) {
-		log.info("pushing {} notification for user {}", message, username);
+		log.info("pushing {} notification for user {} with table id {}", message, username);
 		List<SseEmitter> deadEmitters = new ArrayList<>();
 
         Notification payload = Notification
