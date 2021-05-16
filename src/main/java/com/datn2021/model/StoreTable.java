@@ -15,6 +15,7 @@ import lombok.Setter;
 	private Long id;
 	private String tableName;
 	private String status;
+	private String expoToken;
 	private boolean isActive;
 	private boolean isDelete;
 	

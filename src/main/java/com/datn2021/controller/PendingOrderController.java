@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.message.Message;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,7 @@ public class PendingOrderController {
 @Autowired private OrderFinalRepository finalRepo ;
 @Autowired private CustomerRepository customerRepo;
 @Autowired private OrderItemsService service;
+@Autowired private ModelMapper mapper;
 
 	@GetMapping("")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
@@ -133,8 +135,8 @@ public class PendingOrderController {
 	
 	@PostMapping("/{id}/addNote")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-	public OrderItems updateNotePendingOrder(@RequestBody OrderItems newPendingOrder,@PathVariable Long id) {
-		return repo.findById(id).map(
+	public OrderItemsDTO updateNotePendingOrder(@RequestBody OrderItems newPendingOrder,@PathVariable Long id) {
+		OrderItems items = repo.findById(id).map(
 				pendingorder -> {
 					pendingorder.setNote(newPendingOrder.getNote());
 					return repo.save(pendingorder);
@@ -142,6 +144,8 @@ public class PendingOrderController {
 					newPendingOrder.setId(id);
 					return repo.save(newPendingOrder);
 				});
+		OrderItemsDTO itemdto = mapper.map(items, OrderItemsDTO.class);
+		return itemdto;
 	}
 	
 	@DeleteMapping("/{id}")
