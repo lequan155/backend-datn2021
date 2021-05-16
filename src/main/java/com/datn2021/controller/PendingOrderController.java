@@ -276,7 +276,7 @@ public class PendingOrderController {
 	}
 	@GetMapping("/send")
 	public String sendNotification() throws Exception {
-		String recipient = "ExponentPushToken[uS9Up-LxMJn2wgE_kbU41-]"; // To test, you must replace the recipient with a valid token!
+		String recipient = "ExponentPushToken[xl0PEwEceZ97AwVqm-ajAz]"; // To test, you must replace the recipient with a valid token!
         String title = "Hủy món thành công!";
         String message = "Bạn đã hủy món thành công";
 
