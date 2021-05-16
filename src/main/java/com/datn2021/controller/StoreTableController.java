@@ -26,7 +26,7 @@ public class StoreTableController {
 	@Autowired private StoreTableRepository repo;
 	
 	@GetMapping("")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public List<StoreTable> getListTableCrud(){
 		return repo.findAll();
 	}
@@ -85,7 +85,7 @@ public class StoreTableController {
 	}
 	
 	@PutMapping("/updateStatusBusy/{id}")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable updateStatusTable(@RequestBody StoreTable newTable, @PathVariable Long id) {
 		return repo.findById(id).map(
 				storeTable -> {

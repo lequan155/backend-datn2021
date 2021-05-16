@@ -86,7 +86,7 @@ public class PendingOrderController {
 	}
 	
 	@PostMapping("/addcustomer")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public Customer addCustomer(@RequestBody Customer customer, @PathVariable Long id) {
 		OrderFinal of = finalRepo.findByTableId(id);
 		Customer cus = new Customer();
