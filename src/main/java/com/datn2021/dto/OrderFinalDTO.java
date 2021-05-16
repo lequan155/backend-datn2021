@@ -19,6 +19,7 @@ public class OrderFinalDTO {
 	private Long id;
 	private Customer customer;
 	private StoreTable storeTable;
+	@JsonIgnoreProperties("oderFinal")
 	private Invoice invoice;
 	@JsonIgnoreProperties("orderFinal")
 	private List<OrderItemsDTO> listOrderItems;

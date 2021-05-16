@@ -11,6 +11,7 @@ public class CustomerDTO {
 	private String phoneNo;
 	private String address;
 	private Long pts;
+	private boolean isActive;
 	private boolean isDelete;
 	public Long getId() {
 		return id;
@@ -53,6 +54,12 @@ public class CustomerDTO {
 	}
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }
