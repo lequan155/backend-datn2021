@@ -58,7 +58,7 @@ public class StoreTableController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable getTable(@PathVariable Long id) {
 		return repo.findById(id).orElseThrow(()->new StoreTableNotFoundException(id));
 	}
@@ -73,7 +73,7 @@ public class StoreTableController {
 	}
 	
 	@GetMapping("/{id}/gettoken")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<String> getTableToken(@PathVariable Long id) {
 		StoreTable table =  repo.findById(id).orElseThrow(()->new StoreTableNotFoundException(id));
 		String token = table.getExpoToken();
@@ -81,7 +81,7 @@ public class StoreTableController {
 	}
 	
 	@PostMapping("/{id}/updatetoken")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public ResponseEntity<StoreTable> updateTableToken(@RequestBody Map<String, String> map, @PathVariable Long id) {
 		StoreTable newTable = repo.findById(id).get();
 		String token = map.get("expoToken");

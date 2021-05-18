@@ -278,11 +278,11 @@ public class PendingOrderController {
 		}
 		return new ResponseEntity<String>("Merge Done",HttpStatus.ACCEPTED);
 	}
-	@GetMapping("/send")
-	public String sendNotification() throws Exception {
-		String recipient = "ExponentPushToken[xl0PEwEceZ97AwVqm-ajAz]"; // To test, you must replace the recipient with a valid token!
-        String title = "Hủy món thành công!";
-        String message = "Bạn đã hủy món thành công";
+	@PostMapping("/send")
+	public String sendNotification(@RequestBody Map<String, String> data) throws Exception {
+		String recipient = data.get("recipient"); // To test, you must replace the recipient with a valid token!
+        String title = data.get("title");
+        String message = data.get("message");
 
         if (!PushClient.isExponentPushToken(recipient))
             throw new Error("Token:" + recipient + " is not a valid token.");

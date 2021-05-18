@@ -12,6 +12,7 @@ public class InvoiceDTO {
 	@JsonIgnoreProperties("listOrderItems")
 	private OrderFinal oderFinal;
 	private Long total;
+	private Long totalSale;
 	private Sales sale;
 	private Customer customer;
 	private Date createDate;
@@ -58,5 +59,12 @@ public class InvoiceDTO {
 	public void setDelete(boolean isDelete) {
 		this.isDelete = isDelete;
 	}
+	public Long getTotalSale() {
+		return totalSale;
+	}
+	public void setTotalSale(Long totalSale) {
+		this.totalSale = totalSale;
+	}
+	
 	
 }

@@ -22,14 +22,15 @@ public class EmitterService {
 		emitters.add(emitter);
 	}
 	
-	public void pushNotification(String username, String name, String message) {
-		log.info("pushing {} notification for user {} with table id {}", message, username);
+	public void pushNotification(String username, String name, String message, String tableId) {
+		log.info("pushing {} notification for user {} with table id {}", message, username, tableId);
 		List<SseEmitter> deadEmitters = new ArrayList<>();
 
         Notification payload = Notification
                 .builder()
                 .from(name)
                 .message(message)
+                .tableId(tableId)
                 .build();
 
         emitters.forEach(emitter -> {

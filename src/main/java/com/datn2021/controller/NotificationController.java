@@ -39,7 +39,7 @@ public class NotificationController {
 
     @PostMapping("/send/{username}")
     public ResponseEntity<?> send(@PathVariable String username, @RequestBody NotificationRequest request) {
-        emitterService.pushNotification(username, request.getFrom(), request.getMessage());
-        return ResponseEntity.ok().body("message pushed to user " + username);
+        emitterService.pushNotification(username, request.getFrom(), request.getMessage(), request.getTableId());
+        return new ResponseEntity<>(request, HttpStatus.OK);
     }
 }

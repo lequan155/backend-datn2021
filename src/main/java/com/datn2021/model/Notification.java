@@ -8,4 +8,5 @@ import lombok.Data;
 public class Notification {
 	private String from;
 	private String message;
+	private String tableId;
 }
