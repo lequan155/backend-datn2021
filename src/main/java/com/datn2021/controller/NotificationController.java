@@ -59,4 +59,12 @@ public class NotificationController {
     	List<TableNotification> list = repo.getTopNotification();
     	return new ResponseEntity<List<TableNotification>> (list,HttpStatus.OK);
     }
+    
+    @PostMapping("/{id}")
+    public ResponseEntity<TableNotification> updateRead(@PathVariable Long id){
+    	TableNotification noti = repo.getOne(id);
+    	noti.setRead(true);
+    	repo.save(noti);
+    	return new ResponseEntity<TableNotification>(noti,HttpStatus.OK);
+    }
 }
