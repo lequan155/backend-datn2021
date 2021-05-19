@@ -134,7 +134,7 @@ public class StoreTableController {
 				});
 	}
 	@PutMapping("/updateStatusReady/{id}")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
 	public StoreTable updateStatusReady(@RequestBody StoreTable newTable, @PathVariable Long id) {
 		
 		return repo.findById(id).map(

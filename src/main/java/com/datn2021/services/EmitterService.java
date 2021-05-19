@@ -2,6 +2,7 @@ package com.datn2021.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class EmitterService {
                 .from(name)
                 .message(message)
                 .tableId(tableId)
+                .date(new Date())
                 .build();
 
         emitters.forEach(emitter -> {
