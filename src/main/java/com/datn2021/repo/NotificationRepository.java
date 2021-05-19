@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.datn2021.model.TableNotification;
 
 public interface NotificationRepository extends JpaRepository<TableNotification, Long> {
-	@Query(value="select top 10 * from table_notification order by date desc",nativeQuery = true)
+	@Query(value="select * from table_notification order by date desc limit 10",nativeQuery = true)
 	public List<TableNotification> getTopNotification();
 }
