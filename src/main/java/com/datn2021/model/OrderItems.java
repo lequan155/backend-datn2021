@@ -20,7 +20,7 @@ import lombok.Data;
 @Entity
 @Data
 public class OrderItems {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
 	@JoinColumn(name = "menu_id",referencedColumnName = "id")

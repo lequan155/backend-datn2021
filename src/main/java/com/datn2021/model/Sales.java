@@ -12,7 +12,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Sales {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String salesName;
 	private BigDecimal discountAmount;

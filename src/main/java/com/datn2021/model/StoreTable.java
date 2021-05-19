@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Entity
 @Data public class StoreTable {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String tableName;
 	private String status;

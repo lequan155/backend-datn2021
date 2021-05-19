@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Invoice {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@OneToOne(cascade = CascadeType.ALL)
 	private OrderFinal oderFinal;
