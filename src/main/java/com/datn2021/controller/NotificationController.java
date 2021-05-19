@@ -60,11 +60,10 @@ public class NotificationController {
     	return new ResponseEntity<List<TableNotification>> (list,HttpStatus.OK);
     }
     
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<TableNotification> updateRead(@PathVariable Long id){
     	TableNotification noti = repo.getOne(id);
     	noti.setRead(true);
-    	repo.save(noti);
-    	return new ResponseEntity<TableNotification>(noti,HttpStatus.OK);
+    	return new ResponseEntity<>(repo.save(noti),HttpStatus.OK);
     }
 }
